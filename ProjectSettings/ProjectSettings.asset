@@ -10,7 +10,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Project Tango
-  productName: Unity Examples 01_5 Scenes
+  productName: CityMatrixAR02
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -89,7 +89,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.projecttango.unityexamples01
+  bundleIdentifier: com.ryanz.CityMatrixAR02
   bundleVersion: 1.38
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
@@ -175,7 +175,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 850bb448c3700456290c4778005de0fa, type: 3}
+      m_Icon: {fileID: 2800000, guid: 9c3c4d40b1e274c05aa21d94a6b3b55f, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching:
