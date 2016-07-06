@@ -12,7 +12,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TangoSDK/Examples/Scenes/PointCloud.unity
   - enabled: 1
-    path: Assets/TangoSDK/Examples/Scenes/AreaLearning.unity
+    path: Assets/RZ_scene/AreaLearning.unity
   - enabled: 1
     path: Assets/TangoSDK/Examples/Scenes/AreaDescriptionManagement.unity
   - enabled: 1
