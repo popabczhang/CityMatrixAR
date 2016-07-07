@@ -45597,7 +45597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32646101f03bf420d8d4e9496e99a4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CityModel: {fileID: 1226238589}
 --- !u!1 &1226571601
 GameObject:
   m_ObjectHideFlags: 0
