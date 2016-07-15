@@ -1,0 +1,3 @@
+#The uncompressed directories are huge, so only allow compressed
+*/*
+
