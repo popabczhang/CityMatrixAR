@@ -20,3 +20,5 @@ if [[ !(-d $RAW_DIR && $(ls -A $RAW_DIR)) ]]; then
 fi
 
 python $TRAIN_SCRIPT $RAW_DIR $OUTFILE
+
+exit 0
