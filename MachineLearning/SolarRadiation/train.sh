@@ -1,11 +1,15 @@
+# Script to extract training data and train a machine learning algorithm on that data, outputting the model information file to the given directory
+# Author: Alex "Alxe" Aubuchon
+
 ZIP_DIR="./data"
 RAW_DIR="./data/raw"
 SCRIPTS_DIR="./scripts"
 TRAIN_SCRIPT="$SCRIPTS_DIR/trainLinRegModel.py"
-OUTFILE=$1
+OUTDIR=$1
+OUTNAME="solar-linear.regr"
 
 if [[ $OUTFILE == "" ]]; then
-  echo "No outfile specified. Usage: ./train.sh [Regression Output File]"
+  echo "No outfile specified. Usage: ./train.sh [Regression Output Directory]"
   exit 1
 fi
 
@@ -19,6 +23,6 @@ if [[ !(-d $RAW_DIR && $(ls -A $RAW_DIR)) ]]; then
   done
 fi
 
-python $TRAIN_SCRIPT $RAW_DIR $OUTFILE
+python $TRAIN_SCRIPT $RAW_DIR "$OUTDIR/$OUTNAME"
 
 exit 0
