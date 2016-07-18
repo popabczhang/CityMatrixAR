@@ -106,9 +106,12 @@ def trainLinReg(dataPath, outputFile):
     # Explained variance score: 1 is perfect prediction
     print('Variance score: %.2f' % regr.score(xTest, yTest))
 
-    out = open(outputFile)
-    out.truncate()
-    out.write(regr.getParams(True))
+    out = open(outputFile, 'w')
+    for row in regr.coef_:
+        out.write("")
+        for value in row:
+            out.write("%s " % value)
+        out.write("\n")
 
 
 import sys
