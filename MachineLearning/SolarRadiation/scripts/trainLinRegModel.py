@@ -98,8 +98,6 @@ def trainLinReg(dataPath, outputFile):
     # Train the model using the training sets
     regr.fit(xTrain, yTrain)
 
-    # The coefficients
-    print('Coefficients: \n', regr.coef_)
     # The mean square error
     print("Residual sum of squares: %.2f"
           % np.mean((regr.predict(xTest) - yTest) ** 2))

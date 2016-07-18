@@ -1,8 +1,8 @@
 # Script to automatically train all machine learning algorithms in sibling directories of this file and save the model files to the given directory.
 # Author: Alex "Alxe" Aubuchon
 
-OUTDIR="$1"
-PARENT_DIR="./"
+OUTDIR="$(cd "$1"; pwd)"
+PARENT_DIR="$(dirname "${BASH_SOURCE}")"
 SCRIPT_NAME="train.sh"
 
 if [[ "$OUTDIR" == "" || ! -d "$OUTDIR" ]]; then
