@@ -20,6 +20,8 @@ using System.Collections;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using System;
+using System.Diagnostics;
 
 /// <summary>
 /// Build scripts for this specific project.
@@ -39,5 +41,21 @@ public class BuildTools
             binaryWriter.Write(GitHelpers.GetPrettyGitHash());
             binaryWriter.Write(GitHelpers.GetRemoteBranchName());
         }
+    }
+
+    /// <summary>
+    /// Trains the machine learning algorithms in the MachineLearning directory and saves their output to 
+    /// </summary>
+    [MenuItem("MachineLearning/ Train All Models")]
+    public static void TrainMachineLearningModels()
+    {
+        DirectoryInfo dir = new DirectoryInfo(".");
+        ProcessStartInfo psi = new ProcessStartInfo();
+        psi.FileName = "bash";
+        psi.UseShellExecute = true;
+        psi.WorkingDirectory = dir.FullName;
+        psi.Arguments = "./MachineLearning/trainAll.sh ./Assets/Data/MLModels";
+
+        Process p = Process.Start(psi);
     }
 }
