@@ -3,10 +3,6 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-
-    public int height = 1;
-    public int vertex;
-
     private MeshFilter mFilter;
 
     // Use this for initialization
@@ -19,26 +15,14 @@ public class Building : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int val = Random.Range(1, 5);
-        Debug.Log(val);
-        changeHeight(val);
+
     }
 
-    void changeHeight(float h)
+    internal void changeHeight(float h)
     {
-        //Vertices where y != 0 from initializeMesh()
-        int[] positions = new int[]
-        {
-            1, 2, 4, 5, 6, 7, 9, 10, 17, 18, 21, 22
-        };
-        Vector3[] newVerts = mFilter.mesh.vertices;
-
-        foreach(int i in positions)
-        {
-            newVerts[i].y = h;
-        }
-
-        mFilter.mesh.vertices = newVerts;
+        Vector3 old = GetComponent<Transform>().localScale;
+        old.y = h;
+        GetComponent<Transform>().localScale = old;
     }
 
     void initializeMesh()

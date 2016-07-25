@@ -8,7 +8,7 @@ public class SolarRadiation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        coefficients = LoadCoefficientData("./Data/MLModels/solar-linear.regr");
+        coefficients = LoadCoefficientData("./Assets/Data/MLModels/solar-linear.regr");
 	}
 	
 	// Update is called once per frame
