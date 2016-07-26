@@ -5,25 +5,49 @@ public class Building : MonoBehaviour
 {
     private MeshFilter mFilter;
     private float topGap = (float) 0.01;
+    public float height = 1;
+    public float slideFactor = (float) 0.2;
+
+    private float tempTime = 0;
 
     // Use this for initialization
     void Start()
     {
         mFilter = GetComponent<MeshFilter>();
         initializeMesh();
+        changeHeight(height);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        tempTime += Time.deltaTime;
+        if(tempTime > 5)
+        {
+            this.changeHeight(Random.Range(1, 10));
+            tempTime = 0;
+        }
     }
 
     internal void changeHeight(float h)
     {
-        Vector3 old = GetComponent<Transform>().localScale;
-        old.y = h;
-        GetComponent<Transform>().localScale = old;
+        this.height = h;
+        StartCoroutine("HeightSlide");
+    }
+
+    IEnumerator HeightSlide()
+    {
+        Vector3 scale = this.transform.localScale;
+        while(scale.y != this.height)
+        {
+            scale.y += (this.height - scale.y) * this.slideFactor;
+            if(Mathf.Abs(this.height - scale.y) < 0.01)
+            {
+                scale.y = this.height;
+            }
+            this.transform.localScale = scale;
+            yield return null;
+        }
     }
 
     void initializeMesh()

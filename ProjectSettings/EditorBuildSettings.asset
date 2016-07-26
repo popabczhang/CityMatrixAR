@@ -5,17 +5,17 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/DetectTangoCore.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/MotionTracking.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/PointCloud.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/RZ_scene/AreaLearning.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/AreaDescriptionManagement.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/AugmentedReality.unity
   - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/ExperimentalMeshBuilderWithColor.unity
@@ -25,3 +25,5 @@ EditorBuildSettings:
     path: Assets/TangoSDK/Examples/Scenes/ExperimentalMeshOcclusion.unity
   - enabled: 0
     path: Assets/TangoSDK/Examples/Scenes/ExperimentalFloorFinding.unity
+  - enabled: 1
+    path: Assets/Scenes/VirtualCity.unity
