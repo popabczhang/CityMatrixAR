@@ -2,7 +2,7 @@
 # Author: Alex "Alxe" Aubuchon
 
 OUTDIR="$(cd "$1"; pwd)"
-OUTNAME="solar-linear.regr"
+OUTNAME="solar-linear.txt"
 
 # Check if all arguments properly supplied
 if [[ "$OUTDIR" == "" || ! -d "$OUTDIR"  ]]; then

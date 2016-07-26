@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Text;
 
 public class SolarRadiation : MonoBehaviour {
 
-    float[,] coefficients;
+    public TextAsset regressionFile;
+
+    private double[,] coefficients;
 
 	// Use this for initialization
 	void Start () {
-        coefficients = LoadCoefficientData("./Assets/Data/MLModels/solar-linear.regr");
+        coefficients = LoadCoefficientData();
 	}
 	
 	// Update is called once per frame
@@ -21,10 +24,12 @@ public class SolarRadiation : MonoBehaviour {
     /// </summary>
     /// <param name="path">File to read coefficients from</param>
     /// <returns>Array of coefficients</returns>
-    float[,] LoadCoefficientData(string path)
+    double[,] LoadCoefficientData()
     {
-        StreamReader inp = new StreamReader(path);
-        float[,] output = new float[1225, 1225];
+        StreamReader inp = new StreamReader(
+            new MemoryStream(
+                Encoding.UTF8.GetBytes(regressionFile.text ?? "")));
+        double[,] output = new double[1225, 1225];
 
         int i = 0;
         while(!inp.EndOfStream)
@@ -34,7 +39,7 @@ public class SolarRadiation : MonoBehaviour {
             int j = 0;
             foreach(string coeff in coeffs)
             {
-                float val = float.Parse(coeff, System.Globalization.NumberStyles.Float);
+                double val = double.Parse(coeff, System.Globalization.NumberStyles.Float);
                 output[i, j] = val;
                 j++;
             }
@@ -47,11 +52,11 @@ public class SolarRadiation : MonoBehaviour {
     /// <summary>
     /// Runs the regression produced by the solar radiation ML algorithm on the input, as if the central building were demolished.
     /// </summary>
-    /// <param name="heights">2x2 Array of the heights of each building cell of which there are 7x7 cells for each of 5x5 buildings.</param>
+    /// <param name="heights">Heights of a 5x5 array of buildings.</param>
     /// <returns>2x2 Array of the new heights of each building cell of which there are 7x7 cells for each of 5x5 buildings.</returns>
     float[,] PredictCentralRemoval(float[,] heights)
     {
-        if(heights.GetLength(0) != 35 || heights.GetLength(1) != 35)
+        if(heights.GetLength(0) != 5 || heights.GetLength(1) != 5)
         {
             throw new System.Exception("The solar radiation algorithm expects an array of building cells 35x35 (5x5 buildings of 7x7 cells)");
         }
@@ -59,14 +64,14 @@ public class SolarRadiation : MonoBehaviour {
 
         for(int i = 0; i < coefficients.GetLength(0); i ++)
         {
-            float delta = 0;
+            double delta = 0;
             for(int j = 0; j < coefficients.GetLength(1); j ++)
             {
                 Pair<int, int> pos = GetCellWithIndex(j, heights.GetLength(0));
                 delta += coefficients[i, j] * heights[pos.First, pos.Second];
             }
             Pair<int, int> changed = GetCellWithIndex(i, heights.GetLength(0));
-            output[changed.First, changed.Second] += delta;
+            output[changed.First, changed.Second] += (float) delta;
         }
 
         return output;

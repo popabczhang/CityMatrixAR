@@ -17,6 +17,7 @@ public class VirtualCityModel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        solarRadiation = GetComponent<SolarRadiation>();
         city = new Building[buildingsX, buildingsY];
         for(int i = 0; i < buildingsX; i ++)
         {
@@ -33,8 +34,6 @@ public class VirtualCityModel : MonoBehaviour {
                 city[i, j] = newBuilding;
             }
         }
-
-        solarRadiation = GetComponent<SolarRadiation>();
 	}
 	
 	// Update is called once per frame

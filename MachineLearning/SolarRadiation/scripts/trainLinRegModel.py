@@ -45,7 +45,7 @@ for tf in textFiles:
     f = open(join(dataPath,tf))
     data = f.read()
     f.close()
-    
+
     # identify sections of data
     splitData = data.split("\n[start]")
 
@@ -97,11 +97,8 @@ for row in regr.coef_:
     for j in range(len(row)):
         if(j == 0):
             out.write("%s" % row[j])
-        out.write(",%s" % row[j])
+        else:
+            out.write(",%s" % row[j])
     out.write("\n")
 
 exit(0)
-
-
-    
-    
