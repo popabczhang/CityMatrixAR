@@ -4,6 +4,7 @@ using System.Collections;
 public class Building : MonoBehaviour
 {
     private MeshFilter mFilter;
+    private float topGap = (float) 0.01;
 
     // Use this for initialization
     void Start()
