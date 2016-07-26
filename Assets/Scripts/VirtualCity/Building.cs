@@ -3,19 +3,22 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
+    public float height = 1;
+    public float slideFactor = (float)0.2;
+
     private MeshFilter mFilter;
     private float topGap = (float) 0.01;
-    public float height = 1;
-    public float slideFactor = (float) 0.2;
+    private Sprite sprite;
 
     private float tempTime = 0;
 
     // Use this for initialization
     void Start()
     {
-        mFilter = GetComponent<MeshFilter>();
-        initializeMesh();
-        changeHeight(height);
+        this.sprite = this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+        this.mFilter = GetComponent<MeshFilter>();
+        this.initializeMesh();
+        this.changeHeight(height);
     }
 
     // Update is called once per frame
@@ -26,7 +29,28 @@ public class Building : MonoBehaviour
         {
             this.changeHeight(Random.Range(1, 10));
             tempTime = 0;
+            Color[] newColors = new Color[49];
+            for(int i = 0; i < 49; i ++) 
+            {
+                newColors[i] = new Color(Random.value, Random.value, Random.value, (float) i / 50);
+            }
+            this.recolor(newColors);
         }
+    }
+
+    /// <summary>
+    /// Gets a 2D flattened array (row by row) of the colors of each pixel on the top of this building.
+    /// </summary>
+    /// <returns>The array of colors.</returns>
+    Color[] getColors()
+    {
+        return this.sprite.texture.GetPixels();
+    }
+
+    void recolor(Color[] colors)
+    {
+        this.sprite.texture.SetPixels(colors);
+        this.sprite.texture.Apply();
     }
 
     internal void changeHeight(float h)
