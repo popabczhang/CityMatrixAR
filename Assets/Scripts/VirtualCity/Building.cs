@@ -48,7 +48,7 @@ public class Building : MonoBehaviour
         return this.sprite.texture.GetPixels();
     }
 
-    void recolor(Color[] colors)
+    internal void recolor(Color[] colors)
     {
         this.sprite.texture.SetPixels(colors);
         this.sprite.texture.Apply();
