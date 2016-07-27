@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefab: {fileID: 128288, guid: b98c9e4d7090f83448f419f9c183a4a8, type: 2}
-  buildingsX: 10
-  buildingsY: 10
+  buildingsX: 20
+  buildingsY: 20
   buildingWidth: 7
   buildingHeight: 7
   dataDisplay: 0

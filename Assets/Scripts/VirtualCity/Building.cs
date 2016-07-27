@@ -7,8 +7,9 @@ public class Building : MonoBehaviour
     public float slideFactor = (float)0.2;
 
     private MeshFilter mFilter;
-    private float topGap = (float) 0.01;
+    private float topGap = 0.01F;
     private Sprite sprite;
+    private float minHeight = 0.1F;
 
     private float tempTime = 0;
 
@@ -55,6 +56,7 @@ public class Building : MonoBehaviour
 
     internal void changeHeight(float h)
     {
+        h = h < this.minHeight ? this.minHeight : h;
         this.height = h;
         StartCoroutine("HeightSlide");
     }
@@ -70,8 +72,16 @@ public class Building : MonoBehaviour
                 scale.y = this.height;
             }
             this.transform.localScale = scale;
+            this.repositionTopSprite(scale.y);
             yield return null;
         }
+    }
+
+    void repositionTopSprite(float scale)
+    {
+        Vector3 old = this.transform.GetChild(0).localPosition;
+        old.y = 1 + 5 / (scale * 1000);
+        this.transform.GetChild(0).localPosition = old;
     }
 
     void initializeMesh()

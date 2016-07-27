@@ -30,7 +30,7 @@ public class VirtualCityModel : MonoBehaviour {
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
-                newBuilding.changeHeight(Random.Range(1, 5));
+                newBuilding.changeHeight(0);
                 city[i, j] = newBuilding;
             }
         }
