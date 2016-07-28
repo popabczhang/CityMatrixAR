@@ -18,6 +18,8 @@ public class ColorizerCtrl : MonoBehaviour {
         this.stream = new StreamReader(
             new MemoryStream(
                 Encoding.UTF8.GetBytes(this.testData.text ?? "")));
+
+        StartCoroutine("Initialize");
     }
 	
 	// Update is called once per frame
@@ -25,9 +27,10 @@ public class ColorizerCtrl : MonoBehaviour {
         this.checkForUpdate();
 	}
 
-    internal void initialize()
+    IEnumerator Initialize()
     {
         this.parseData(this.stream);
+        yield return null;
     }
 
     void parseLine(string line)
@@ -48,10 +51,6 @@ public class ColorizerCtrl : MonoBehaviour {
 
     void checkForUpdate()
     {
-        if(!this.initialized)
-        {
-            this.initialize();
-            this.initialized = true;
-        }
+        
     }
 }
