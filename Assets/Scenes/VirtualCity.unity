@@ -177,9 +177,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPrefab: {fileID: 128288, guid: b98c9e4d7090f83448f419f9c183a4a8, type: 2}
-  buildingsX: 20
-  buildingsY: 20
-  coolColor: {r: 0, g: 0, b: 1, a: 1}
+  buildingsX: 19
+  buildingsY: 19
+  coolColor: {r: 0.093263395, g: 0.16071337, b: 0.8455882, a: 1}
   hotColor: {r: 1, g: 0, b: 0, a: 1}
   dataDisplay: 0
 --- !u!4 &1135186510
@@ -300,10 +300,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1319508763}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.26117572, y: 0.23844127, z: -0.08585091, w: 0.93143046}
+  m_LocalPosition: {x: 0, y: 17.26, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 31.835, y: 28.0374, z: -2.3866}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
