@@ -6,8 +6,8 @@ public class VirtualCityModel : MonoBehaviour {
     public GameObject buildingPrefab;
     public int buildingsX = 10;
     public int buildingsY = 10;
-    public int buildingWidth = 7;
-    public int buildingHeight = 7;
+    public Color coolColor = Color.blue;
+    public Color hotColor = Color.red;
     public DataDisplay dataDisplay;
 
     private Building[,] city;
@@ -16,7 +16,7 @@ public class VirtualCityModel : MonoBehaviour {
     public enum DataDisplay {SolarRadiation};
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         solarRadiation = GetComponent<SolarRadiation>();
         city = new Building[buildingsX, buildingsY];
         for(int i = 0; i < buildingsX; i ++)
@@ -30,7 +30,8 @@ public class VirtualCityModel : MonoBehaviour {
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
-                newBuilding.changeHeight(0);
+                newBuilding.data = new BuildingData(
+                    -1, i, j, 0, this.coolColor, this.hotColor);
                 city[i, j] = newBuilding;
             }
         }
@@ -38,8 +39,14 @@ public class VirtualCityModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
+
+    internal void editBuilding(int id, int x, int y, int rotation)
+    {
+        this.city[x, y].updateData(
+            new BuildingData(id, x, y, rotation, this.coolColor, this.hotColor));
+    }
 
     /// <summary>
     /// Alters the height of the specified building.

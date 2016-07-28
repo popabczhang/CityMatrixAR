@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-    public float height = 1;
     public float slideFactor = (float)0.2;
 
+    internal BuildingData data;
     private MeshFilter mFilter;
     private float topGap = 0.01F;
     private Sprite sprite;
@@ -19,7 +19,6 @@ public class Building : MonoBehaviour
         this.sprite = this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
         this.mFilter = GetComponent<MeshFilter>();
         this.initializeMesh();
-        this.changeHeight(height);
     }
 
     // Update is called once per frame
@@ -35,8 +34,19 @@ public class Building : MonoBehaviour
             {
                 newColors[i] = new Color(Random.value, Random.value, Random.value, (float) i / 50);
             }
-            this.recolor(newColors);
+            //this.recolor(newColors);
         }
+    }
+
+    /// <summary>
+    /// Updates this building with the given data, making any other changes that are ramifaications of that change.
+    /// </summary>
+    /// <param name="newData">The data to replace the old with.</param>
+    internal void updateData(BuildingData newData)
+    {
+        this.data = newData;
+        this.recolor(this.data.getColors());
+        this.changeHeight(this.data.height);
     }
 
     /// <summary>
@@ -57,19 +67,19 @@ public class Building : MonoBehaviour
     internal void changeHeight(float h)
     {
         h = h < this.minHeight ? this.minHeight : h;
-        this.height = h;
+        this.data.height = h;
         StartCoroutine("HeightSlide");
     }
 
     IEnumerator HeightSlide()
     {
         Vector3 scale = this.transform.localScale;
-        while(scale.y != this.height)
+        while(scale.y != this.data.height)
         {
-            scale.y += (this.height - scale.y) * this.slideFactor;
-            if(Mathf.Abs(this.height - scale.y) < 0.01)
+            scale.y += (this.data.height - scale.y) * this.slideFactor;
+            if(Mathf.Abs(this.data.height - scale.y) < 0.01)
             {
-                scale.y = this.height;
+                scale.y = this.data.height;
             }
             this.transform.localScale = scale;
             this.repositionTopSprite(scale.y);
