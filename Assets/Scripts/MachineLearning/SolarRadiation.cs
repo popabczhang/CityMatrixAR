@@ -19,6 +19,11 @@ public class SolarRadiation : MonoBehaviour {
 	
 	}
 
+    internal BuildingData[,] updateBlock(BuildingData[,] oldBlock, BuildingData newCenter)
+    {
+        return oldBlock;
+    }
+
     /// <summary>
     /// Loads the coefficient data and returns the array of coefficients as they are in the file
     /// </summary>

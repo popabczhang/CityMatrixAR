@@ -12,6 +12,7 @@ public class VirtualCityModel : MonoBehaviour {
 
     private Building[,] city;
     private SolarRadiation solarRadiation;
+    private bool initialized = false;
 
     public enum DataDisplay {SolarRadiation};
 
@@ -44,8 +45,19 @@ public class VirtualCityModel : MonoBehaviour {
 
     internal void editBuilding(int id, int x, int y, int rotation)
     {
+        BuildingData old = this.city[x, y].data;
         this.city[x, y].updateData(
             new BuildingData(id, x, y, rotation, this.coolColor, this.hotColor));
+        if (this.initialized)
+        {
+            switch (this.dataDisplay)
+            {
+                case (DataDisplay.SolarRadiation):
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /// <summary>
