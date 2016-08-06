@@ -7,6 +7,7 @@ public class VirtualCityModel : MonoBehaviour {
     public int buildingsX = 10;
     public int buildingsY = 10;
     public Color coolColor = Color.blue;
+    public Color midColor = Color.yellow;
     public Color hotColor = Color.red;
     public DataDisplay dataDisplay;
 
@@ -16,13 +17,15 @@ public class VirtualCityModel : MonoBehaviour {
 
     public enum DataDisplay {SolarRadiation};
 
-	// Use this for initialization
-	void Awake () {
+    private float tempTime = 60;
+
+    // Use this for initialization
+    void Awake () {
         solarRadiation = GetComponent<SolarRadiation>();
         city = new Building[buildingsX, buildingsY];
         for(int i = 0; i < buildingsX; i ++)
         {
-            for(int j = 0; j < buildingsY; j ++)
+            for(int j = buildingsY - 1; j >= 0; j --)
             {
                 Building newBuilding = 
                     ((GameObject) Instantiate(
@@ -31,23 +34,34 @@ public class VirtualCityModel : MonoBehaviour {
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
+                Debug.Log(j);
                 newBuilding.data = new BuildingData(
-                    -1, i, j, 0, this.coolColor, this.hotColor);
-                city[i, j] = newBuilding;
+                    -1, i, j, 0, this.coolColor, this.midColor, this.hotColor);
+                city[i, buildingsY - j - 1] = newBuilding;
             }
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
+        tempTime += Time.deltaTime;
+        if (tempTime > 60)
+        {
+            foreach (Building b in this.city)
+            {
+                b.changeHeight(Random.Range(1, 10));
+            }
+            tempTime = 0;
+            SolarRadiationSimulation sim = this.gameObject.AddComponent<SolarRadiationSimulation>();
+            sim.initialize(this.city);
+        }
+    }
 
     internal void editBuilding(int id, int x, int y, int rotation)
     {
         BuildingData old = this.city[x, y].data;
         this.city[x, y].updateData(
-            new BuildingData(id, x, y, rotation, this.coolColor, this.hotColor));
+            new BuildingData(id, x, y, rotation, this.coolColor, this.midColor, this.hotColor));
         if (this.initialized)
         {
             switch (this.dataDisplay)

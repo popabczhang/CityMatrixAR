@@ -11,12 +11,16 @@ public class Building : MonoBehaviour
     private Sprite sprite;
     private float minHeight = 0.1F;
 
-    private float tempTime = 0;
-
     // Use this for initialization
     void Start()
     {
-        this.sprite = this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+        SpriteRenderer sr = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        Texture2D newTexture = Instantiate(sr.sprite.texture) as Texture2D;
+        sr.sprite = 
+            Sprite.Create(newTexture, 
+            new Rect(0, 0, sr.sprite.texture.width, sr.sprite.texture.height),
+            new Vector2(0.5f, 0.5f), 7f);
+        this.sprite = sr.sprite;
         this.mFilter = GetComponent<MeshFilter>();
         this.initializeMesh();
     }
@@ -24,18 +28,7 @@ public class Building : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tempTime += Time.deltaTime;
-        if(tempTime > 5)
-        {
-            this.changeHeight(Random.Range(1, 10));
-            tempTime = 0;
-            Color[] newColors = new Color[49];
-            for(int i = 0; i < 49; i ++) 
-            {
-                newColors[i] = new Color(Random.value, Random.value, Random.value, (float) i / 50);
-            }
-            //this.recolor(newColors);
-        }
+        
     }
 
     /// <summary>
