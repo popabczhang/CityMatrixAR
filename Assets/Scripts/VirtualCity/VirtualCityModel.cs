@@ -30,11 +30,10 @@ public class VirtualCityModel : MonoBehaviour {
                 Building newBuilding = 
                     ((GameObject) Instantiate(
                         buildingPrefab, 
-                        new Vector3(i, 0, j), 
+                        this.transform.position + (new Vector3(i, 0, j)), 
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
-                Debug.Log(j);
                 newBuilding.data = new BuildingData(
                     -1, i, j, 0, this.coolColor, this.midColor, this.hotColor);
                 city[i, buildingsY - j - 1] = newBuilding;
@@ -44,7 +43,6 @@ public class VirtualCityModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        tempTime += Time.deltaTime;
         if (tempTime > 60)
         {
             foreach (Building b in this.city)

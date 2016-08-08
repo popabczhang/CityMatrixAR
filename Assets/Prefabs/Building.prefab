@@ -71,7 +71,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 829be283402dda24f8f5ab072e82a6c4, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0830c3234ac884a4b8d39fd6bab23b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slideFactor: 0.2
 --- !u!212 &21227460
 SpriteRenderer:
   m_ObjectHideFlags: 1

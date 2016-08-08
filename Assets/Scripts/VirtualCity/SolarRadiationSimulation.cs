@@ -87,7 +87,6 @@ public class SolarRadiationSimulation : MonoBehaviour{
             {
                 for(int j = 0; j < 7; j ++)
                 {
-                    //UnityEngine.Debug.Log(data[a]);
                     b.data.heatMap[i, j] = data[a] / max;
                     a++;
                 }
