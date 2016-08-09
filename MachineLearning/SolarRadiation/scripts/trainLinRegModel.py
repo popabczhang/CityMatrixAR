@@ -20,7 +20,7 @@ import sys
 
 def getBuildingCell(str):
     data = str.split(',')
-    buildingCell = heightFilter(data[2])
+    buildingCell = data[2]
     return buildingCell
 
 def heightFilter(height):

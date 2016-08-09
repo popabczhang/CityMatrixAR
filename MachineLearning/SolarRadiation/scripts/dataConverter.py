@@ -4,16 +4,11 @@ Created on Mon Aug 08 17:09:20 2016
 
 @author: Alex
 """
-# add ml libraries
-from sklearn import linear_model
+
 # add basic data munging
 from os import listdir
-# Properly represent data
-import numpy as np
 # commands for reading in files on the system
 from os.path import isfile, join
-# add plots
-import matplotlib.pyplot as plt
 # file IO
 import sys
 
@@ -36,11 +31,31 @@ def getNewBuildingData(old):
                 out[i * 5 + j] = str(i) + "," + str(j) + "," + heightFilter(old[counter].split(",")[2])
                 counter += 49
     return out
-            
+    
+
+def getNewDiffData(old):
+    out = [""]*1225
+    counter = 0
+    for k in range(0, 7):
+        for l in range(6, -1, -1):
+            out[(2 * 49 * 5) + (2 * 49) + (k * 7) + l] = old[counter]
+            counter += 1
+    for i in range(0, 5):
+        for j in range(4, -1, -1):
+            if((i == 2) and (j == 2)):
+                tmp = counter
+                counter = 0
+            for k in range(0, 7):
+                for l in range(6, -1, -1):
+                    out[(i * 49 * 5) + (j * 49) + (k * 7) + l] = old[counter]
+                    counter += 1
+            if((i == 2) and (j == 2)):
+                counter = tmp
+    return out
+    
 
 
 dataPath = sys.argv[1]
-outputFile = sys.argv[2]
 
 textFiles = [f for f in listdir(dataPath) if isfile(join(dataPath, f))]
 
@@ -55,11 +70,11 @@ for tf in textFiles:
 
     # get the central building height --not used
     buildingHeight = splitData[0].split("\n")
-    buildingHeight = buildingHeight[1:(len(buildingHeight)-1)]
+    buildingHeight = buildingHeight[1]
 
     # get the seed number --not used
     seedNum = splitData[1].split("\n")
-    seedNum = seedNum[1:(len(seedNum)-1)]
+    seedNum = seedNum[1]
 
     # get the building cell height data for this 5x5 building file
     inputData = splitData[2].split("\n")
