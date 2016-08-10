@@ -458,12 +458,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1135186508}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c27cfb9aebf28a148b7b293a2306a698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regressionFile: {fileID: 0}
+  regressionFile: {fileID: 4900000, guid: b544ab5f56f93a143aa61bc4ec9d56b9, type: 3}
 --- !u!114 &1135186512
 MonoBehaviour:
   m_ObjectHideFlags: 0
