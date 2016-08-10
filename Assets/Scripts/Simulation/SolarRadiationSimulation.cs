@@ -70,10 +70,8 @@ public class SolarRadiationSimulation : MonoBehaviour{
             data[i] = Double.Parse(dataStream.ReadLine());
             i++;
         }
-
+        dataStream.Close();
         this.ApplyData(data);
-
-        File.Delete(this.sensorDataPath);
     } 
 
     private void ApplyData(double[] data)
@@ -87,7 +85,8 @@ public class SolarRadiationSimulation : MonoBehaviour{
             {
                 for(int j = 0; j < 7; j ++)
                 {
-                    b.data.heatMap[i, j] = data[a] / max;
+                    b.data.heatMap[i, j] = data[a];
+                    b.data.colorRef = max;
                     a++;
                 }
             }

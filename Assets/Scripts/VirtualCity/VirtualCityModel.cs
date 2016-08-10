@@ -17,7 +17,7 @@ public class VirtualCityModel : MonoBehaviour {
 
     public enum DataDisplay {SolarRadiation};
 
-    private float tempTime = 61;
+    private float tempTime = -31;
 
     // Use this for initialization
     void Awake () {
@@ -43,16 +43,28 @@ public class VirtualCityModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tempTime > 60)
+        if (tempTime < -30)
         {
             foreach (Building b in this.city)
             {
                 b.changeHeight(Random.Range(1, 10));
             }
-            tempTime = 0;
             SolarRadiationSimulation sim = this.gameObject.AddComponent<SolarRadiationSimulation>();
             sim.initialize(this.city);
+            tempTime = -20;
         }
+        if(tempTime > 5)
+        {
+            int x = Random.Range(0, buildingsX);
+            int y = Random.Range(0, buildingsY);
+            int h = Random.Range(1, 5);
+            Debug.Log(x + " " + y + " " + h);
+            tempTime = 0;
+
+            this.solarRadiation.
+                changeBuildingHeight(this.city,x,y,h);
+        }
+        tempTime += Time.deltaTime;
     }
 
     internal void editBuilding(int id, int x, int y, int rotation)

@@ -2,12 +2,17 @@
 using System.Collections;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 public class SolarRadiation : MonoBehaviour {
 
     public TextAsset regressionFile;
 
     private double[,] coefficients;
+    private int inputSize = 25;
+    private int inputWidth = 5;
+    private int outputSize = 1225;
+    private int sensorsX = 7;
 
 	// Use this for initialization
 	void Start () {
@@ -16,12 +21,75 @@ public class SolarRadiation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
 
-    internal BuildingData[,] updateBlock(BuildingData[,] oldBlock, BuildingData newCenter)
+    internal void changeBuildingHeight(Building[,] city, int x, int y, float newHeight)
     {
-        return oldBlock;
+        BuildingData[] block = new BuildingData[inputSize];
+        int counter = 0;
+        for(int i = x - inputWidth / 2; i < x + inputWidth / 2 + 1; i ++)
+        {
+            for (int j = y - inputWidth / 2; j < y + inputWidth / 2 + 1; j++)
+            {
+                if (i < 0 || j < 0 || i >= city.GetLength(0) || j >= city.GetLength(1))
+                {
+                    BuildingData tmp = new BuildingData(-1, i, j, 0, Color.blue, Color.blue, Color.blue);
+                    tmp.height = 1;
+                    block[counter] = tmp;
+                } else
+                {
+                    block[counter] = city[i, j].data;
+                }
+                counter++;
+            }
+        }
+        counter = 0;
+        updateBlock(block, newHeight);
+        block[inputSize / 2].height = newHeight;
+        for (int i = x - inputWidth / 2; i < x + inputWidth / 2 + 1; i++)
+        {
+            for (int j = y - inputWidth / 2; j < y + inputWidth / 2 + 1; j++)
+            {
+                if (!(i < 0 || j < 0))
+                {
+                    city[i, j].updateData(block[counter]);
+                }
+                counter++;
+            }
+        }
+    }
+
+    private void updateBlock(BuildingData[] oldBlock, float newCenterHeight)
+    {
+        float[] heightMap = new float[inputSize];
+        for(int i = 0; i < inputSize; i ++)
+        {
+            heightMap[i] = oldBlock[i].height;
+        }
+        double[] deltas = new double[outputSize];
+        double[] addDeltas = PredictCentralRemoval(heightMap);
+        heightMap[inputSize / 2] = newCenterHeight;
+        double[] subtractDeltas = PredictCentralRemoval(heightMap);
+        for(int i = 0; i < outputSize; i ++)
+        {
+            deltas[i] = addDeltas[i] - subtractDeltas[i];
+        }
+
+        int counter = 0;
+        for(int b = 0; b < inputSize; b ++)
+        {
+            double[,] heatMap = oldBlock[b].heatMap;
+            for(int i = 0; i < sensorsX; i ++)
+            {
+                for(int j = 0; j < sensorsX; j ++)
+                {
+                    heatMap[i, j] = heatMap[i, j] + deltas[counter];
+                    counter++;
+                }
+            }
+            oldBlock[b].heatMap = heatMap;
+        }
     }
 
     /// <summary>
@@ -34,7 +102,7 @@ public class SolarRadiation : MonoBehaviour {
         StreamReader inp = new StreamReader(
             new MemoryStream(
                 Encoding.UTF8.GetBytes(regressionFile.text ?? "")));
-        double[,] output = new double[1225, 1225];
+        double[,] output = new double[outputSize, inputSize];
 
         int i = 0;
         while(!inp.EndOfStream)
@@ -58,54 +126,25 @@ public class SolarRadiation : MonoBehaviour {
     /// Runs the regression produced by the solar radiation ML algorithm on the input, as if the central building were demolished.
     /// </summary>
     /// <param name="heights">Heights of a 5x5 array of buildings.</param>
-    /// <returns>2x2 Array of the new heights of each building cell of which there are 7x7 cells for each of 5x5 buildings.</returns>
-    float[,] PredictCentralRemoval(float[,] heights)
+    /// <returns>Solar values of each sensor after the change.</returns>
+    double[] PredictCentralRemoval(float[] heights)
     {
-        if(heights.GetLength(0) != 5 || heights.GetLength(1) != 5)
+        if(heights.Length != inputSize)
         {
             throw new System.Exception("The solar radiation algorithm expects an array of building cells 35x35 (5x5 buildings of 7x7 cells)");
         }
-        float[,] output = (float[,]) heights.Clone();
+        double[] output = new double[outputSize];
 
         for(int i = 0; i < coefficients.GetLength(0); i ++)
         {
             double delta = 0;
             for(int j = 0; j < coefficients.GetLength(1); j ++)
             {
-                Pair<int, int> pos = GetCellWithIndex(j, heights.GetLength(0));
-                delta += coefficients[i, j] * heights[pos.First, pos.Second];
+                delta += heights[j] * coefficients[i, j];
             }
-            Pair<int, int> changed = GetCellWithIndex(i, heights.GetLength(0));
-            output[changed.First, changed.Second] += (float) delta;
+            output[i] = delta;
         }
 
         return output;
-    }
-
-    /// <summary>
-    /// Determines an iterative order over a square array and offers a cell for the index provided.
-    /// </summary>
-    /// <param name="index">The index of the cell retured</param>
-    /// <param name="width">The width of the square array.</param>
-    /// <returns>The cell (as a pair) referenced by the index.</returns>
-    private Pair<int, int> GetCellWithIndex(int index, int width)
-    {
-        return new Pair<int, int>(index % width, index / width);
-    }
-
-    /// <summary>
-    /// Class that can hold a pair of two objects.
-    /// </summary>
-    /// <typeparam name="T1"></typeparam>
-    /// <typeparam name="T2"></typeparam>
-    private class Pair<T1, T2>
-    {
-        public T1 First { get; private set; }
-        public T2 Second { get; private set; }
-        internal Pair(T1 first, T2 second)
-        {
-            First = first;
-            Second = second;
-        }
     }
 }

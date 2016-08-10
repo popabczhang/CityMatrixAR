@@ -9,6 +9,7 @@ public class BuildingData {
     public float height;
     public int rotation;
     public double[,] heatMap;
+    public double colorRef = 1;
     public Color coolColor;
     public Color midColor;
     public Color hotColor;
@@ -42,7 +43,7 @@ public class BuildingData {
         {
             for(int i = 0; i < this.heatMap.GetLength(0); i ++)
             {
-                double val = this.heatMap[i, j];
+                double val = this.heatMap[i, j] / this.colorRef;
                 if (val < 0.5f)
                 {
                     output[a] = Color.Lerp(this.coolColor, this.midColor, (float) val * 2f);
