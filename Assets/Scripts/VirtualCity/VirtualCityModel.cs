@@ -17,7 +17,7 @@ public class VirtualCityModel : MonoBehaviour {
 
     public enum DataDisplay {SolarRadiation};
 
-    private float tempTime = 60;
+    private float tempTime = 61;
 
     // Use this for initialization
     void Awake () {

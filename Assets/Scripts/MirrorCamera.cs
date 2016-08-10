@@ -25,7 +25,6 @@ public class MirrorCamera : MonoBehaviour {
 
         this.transform.Translate(new Vector3(mouseX, mouseY, depthical));
         //this.transform.position = old + delta;
-        Debug.Log(this.cam.projectionMatrix);
     }
 
     void LateUpdate()
