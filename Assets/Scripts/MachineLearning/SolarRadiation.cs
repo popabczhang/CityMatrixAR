@@ -51,7 +51,7 @@ public class SolarRadiation : MonoBehaviour {
         {
             for (int j = y - inputWidth / 2; j < y + inputWidth / 2 + 1; j++)
             {
-                if (!(i < 0 || j < 0))
+                if (!(i < 0 || j < 0 || i >= city.GetLength(0) || j >= city.GetLength(1)))
                 {
                     city[i, j].updateData(block[counter]);
                 }
