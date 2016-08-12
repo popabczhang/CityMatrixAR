@@ -24,6 +24,15 @@ public class SolarRadiation : MonoBehaviour {
 	    
 	}
 
+    internal void updateBuilding(Building[,] city, BuildingData newData)
+    {
+        float newHeight = newData.height;
+        newData.heatMap = city[newData.x, newData.y].data.heatMap;
+        newData.height = city[newData.x, newData.y].data.height;
+        city[newData.x, newData.y].updateData(newData);
+        this.changeBuildingHeight(city, newData.x, newData.y, newHeight);
+    }
+
     internal void changeBuildingHeight(Building[,] city, int x, int y, float newHeight)
     {
         BuildingData[] block = new BuildingData[inputSize];

@@ -6,51 +6,104 @@ using System;
 
 public class ColorizerCtrl : MonoBehaviour {
 
-    public TextAsset testData;
-
     public VirtualCityModel cityModel;
+    public string JsonURL;
 
-    private StreamReader stream;
-    private Boolean initialized = false;
+    private JSONCityMatrix oldData;
 
 	// Use this for initialization
 	void Start () {
-        this.stream = new StreamReader(
-            new MemoryStream(
-                Encoding.UTF8.GetBytes(this.testData.text ?? "")));
-
         StartCoroutine("Initialize");
     }
-	
-	// Update is called once per frame
-	void Update () {
-        this.checkForUpdate();
+
+    // Update is called once per frame
+    void Update () {
 	}
 
     IEnumerator Initialize()
     {
-        this.parseData(this.stream);
-        yield return null;
-    }
+        WWW jsonPage = new WWW(this.JsonURL);
+        yield return jsonPage;
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
 
-    void parseLine(string line)
-    {
-        string[] data = line.Split('\t');
-        cityModel.editBuilding(
-            Int32.Parse(data[0]), Int32.Parse(data[1]), 
-            Int32.Parse(data[2]), Int32.Parse(data[3]));
-    }
-
-    void parseData(StreamReader data)
-    {
-        while(!data.EndOfStream)
+        foreach(JSONBuilding b in data.grid)
         {
-            parseLine(data.ReadLine());
+            this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
         }
+
+        this.oldData = data;
+        StartCoroutine("CheckForUpdates");
     }
 
-    void checkForUpdate()
+    IEnumerator CheckForUpdates()
     {
+        WWW jsonPage = new WWW(this.JsonURL);
+        yield return jsonPage;
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
 
+        for(int i = 0; i < data.grid.Length; i ++)
+        {
+            if(!data.grid[i].Equals(oldData.grid[i]))
+            {
+                JSONBuilding b = data.grid[i];
+                this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
+            }
+        }
+        Debug.Log(JsonUtility.ToJson(data));
     }
+}
+
+[Serializable]
+class JSONCityMatrix
+{
+    public JSONBuilding[] grid;
+    public JSONObjects objects;
+    public int new_delta;
+}
+
+[Serializable]
+class JSONBuilding
+{
+    public int type;
+    public int x;
+    public int y;
+    public int magnitude;
+    public int rot;
+
+    public override bool Equals(object obj)
+    {
+        JSONBuilding o = obj as JSONBuilding;
+        return o != null &&
+            this.type == o.type &&
+            this.x == o.x &&
+            this.y == o.y &&
+            this.magnitude == o.magnitude &&
+            this.rot == o.rot;
+    }
+
+    public override int GetHashCode()
+    {
+        return this.type.GetHashCode() *
+            this.x.GetHashCode() *
+            this.y.GetHashCode() *
+            this.magnitude.GetHashCode() *
+            this.rot.GetHashCode();
+    }
+}
+
+[Serializable]
+class JSONObjects
+{
+    public int pop_mid;
+    public int toggle2;
+    public int pop_old;
+    public int[] density;
+    public int IDMax;
+    public double slider1;
+    public int toggle1;
+    public int dockRotation;
+    public int pop_young;
+    public int gridIndex;
+    public int dockID;
+    public int toggle3;
 }
