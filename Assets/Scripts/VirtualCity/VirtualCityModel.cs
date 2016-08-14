@@ -20,7 +20,7 @@ public class VirtualCityModel : MonoBehaviour {
     private float tempTime = -31;
 
     // Use this for initialization
-    void Awake () {
+    void Start () {
         solarRadiation = GetComponent<SolarRadiation>();
         city = new Building[buildingsX, buildingsY];
         for(int i = 0; i < buildingsX; i ++)
@@ -34,8 +34,8 @@ public class VirtualCityModel : MonoBehaviour {
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
-                newBuilding.data = new BuildingData(
-                    -1, i, j, 0, this.coolColor, this.midColor, this.hotColor);
+                newBuilding.data = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
+                    -1, i, j, 0, 0, this.coolColor, this.midColor, this.hotColor);
                 city[i, buildingsY - j - 1] = newBuilding;
             }
         }
@@ -43,33 +43,14 @@ public class VirtualCityModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tempTime < -30)
-        {
-            foreach (Building b in this.city)
-            {
-                b.changeHeight(Random.Range(1, 10));
-            }
-            SolarRadiationSimulation sim = this.gameObject.AddComponent<SolarRadiationSimulation>();
-            sim.initialize(this.city);
-            tempTime = -20;
-        }
-        if(tempTime > 5)
-        {
-            int x = Random.Range(0, buildingsX);
-            int y = Random.Range(0, buildingsY);
-            int h = Random.Range(1, 5);
-            Debug.Log(x + " " + y + " " + h);
-            tempTime = 0;
-
-            this.solarRadiation.
-                changeBuildingHeight(this.city,x,y,h);
-        }
-        tempTime += Time.deltaTime;
+        
     }
 
     internal void updateBuilding(int id, int x, int y, int rotation)
     {
-        BuildingData newData = new BuildingData(id, x, y, rotation, this.coolColor, this.midColor, this.hotColor);
+        BuildingData newData = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
+                    id, x, y, rotation, 0, this.coolColor, this.midColor, this.hotColor);
+
         if (this.initialized)
         {
             switch (this.dataDisplay)

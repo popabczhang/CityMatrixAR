@@ -43,8 +43,9 @@ public class SolarRadiation : MonoBehaviour {
             {
                 if (i < 0 || j < 0 || i >= city.GetLength(0) || j >= city.GetLength(1))
                 {
-                    BuildingData tmp = new BuildingData(-1, i, j, 0, Color.blue, Color.blue, Color.blue);
-                    tmp.height = 1;
+                    BuildingData tmp = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
+                    -1, i, j, 0, 0, Color.blue, Color.blue, Color.blue);
+                    tmp.height = 0.1f;
                     block[counter] = tmp;
                 } else
                 {

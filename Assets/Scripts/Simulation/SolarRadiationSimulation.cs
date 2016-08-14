@@ -46,10 +46,10 @@ public class SolarRadiationSimulation : MonoBehaviour{
 
         for (int j = 0; j < city.GetLength(1); j++)
         {
-            output[j] = city[0, j].data.height.ToString();
+            output[j] = city[0, j].data.width.ToString() + "-" + city[0, j].data.height.ToString();
             for (int i = 1; i < city.GetLength(0); i ++)
             {
-                output[j] = output[j] + "," + city[i, j].data.height.ToString();
+                output[j] = output[j] + "," + city[i, j].data.width.ToString() + "-" + city[i, j].data.height.ToString();
             }
         }
         System.IO.File.WriteAllLines(this.heightDataPath, output);

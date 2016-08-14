@@ -22,6 +22,7 @@ public class ColorizerCtrl : MonoBehaviour {
 
     IEnumerator Initialize()
     {
+        yield return null;
         WWW jsonPage = new WWW(this.JsonURL);
         yield return jsonPage;
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
@@ -49,7 +50,7 @@ public class ColorizerCtrl : MonoBehaviour {
                 this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
             }
         }
-        Debug.Log(JsonUtility.ToJson(data));
+        StartCoroutine("CheckForUpdates");
     }
 }
 

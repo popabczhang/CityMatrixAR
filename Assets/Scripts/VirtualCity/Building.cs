@@ -39,7 +39,7 @@ public class Building : MonoBehaviour
     {
         this.data = newData;
         this.recolor(this.data.getColors());
-        this.changeHeight(this.data.height);
+        this.changeHeight(this.data.height/this.data.width);
     }
 
     /// <summary>
@@ -60,7 +60,6 @@ public class Building : MonoBehaviour
     internal void changeHeight(float h)
     {
         h = h < this.minHeight ? this.minHeight : h;
-        this.data.height = h;
         StartCoroutine("HeightSlide");
     }
 
