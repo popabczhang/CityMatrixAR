@@ -44,7 +44,6 @@ public class BuildingDataCtrl : MonoBehaviour
                 }
                 i++;
             }
-            Debug.Log(type.id.ToString() + " " +  type.height.ToString());
             types[type.id] = type;
         }
     }

@@ -414,6 +414,7 @@ GameObject:
   - 114: {fileID: 1135186509}
   - 114: {fileID: 1135186512}
   - 114: {fileID: 1135186511}
+  - 114: {fileID: 1135186513}
   m_Layer: 0
   m_Name: VirtualCity
   m_TagString: Untagged
@@ -439,6 +440,7 @@ MonoBehaviour:
   midColor: {r: 1, g: 1, b: 0, a: 1}
   hotColor: {r: 0.9725491, g: 0.04705883, b: 0, a: 1}
   dataDisplay: 0
+  grasshopperFileDirectory: C:/Users/Alex/GitSpace/CityMatrixAR/Grasshopper
 --- !u!4 &1135186510
 Transform:
   m_ObjectHideFlags: 0
@@ -447,7 +449,7 @@ Transform:
   m_GameObject: {fileID: 1135186508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -477,6 +479,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityModel: {fileID: 1135186509}
   JsonURL: http://cityscope.media.mit.edu/citymatrix.json
+--- !u!114 &1135186513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1135186508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4714723eb9efd4ea0dec55b072dbf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingTypeData: {fileID: 4900000, guid: db2532f775e880744a0d9232d91d0781, type: 3}
+  BuildingBaseWidth: 30
 --- !u!1 &1584717384
 GameObject:
   m_ObjectHideFlags: 0

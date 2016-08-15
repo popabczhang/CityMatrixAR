@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
     private float topGap = 0.01F;
     private Sprite sprite;
     private float minHeight = 0.1F;
+    private float targetHeight;
 
     // Use this for initialization
     void Start()
@@ -59,19 +60,19 @@ public class Building : MonoBehaviour
 
     internal void changeHeight(float h)
     {
-        h = h < this.minHeight ? this.minHeight : h;
+        this.targetHeight = h < this.minHeight ? this.minHeight : h;
         StartCoroutine("HeightSlide");
     }
 
     IEnumerator HeightSlide()
     {
         Vector3 scale = this.transform.localScale;
-        while(scale.y != this.data.height)
+        while(scale.y != this.targetHeight)
         {
-            scale.y += (this.data.height - scale.y) * this.slideFactor;
-            if(Mathf.Abs(this.data.height - scale.y) < 0.01)
+            scale.y += (this.targetHeight - scale.y) * this.slideFactor;
+            if(Mathf.Abs(this.targetHeight - scale.y) < 0.01)
             {
-                scale.y = this.data.height;
+                scale.y = this.targetHeight;
             }
             this.transform.localScale = scale;
             this.repositionTopSprite(scale.y);

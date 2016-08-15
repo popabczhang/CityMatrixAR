@@ -10,6 +10,7 @@ public class VirtualCityModel : MonoBehaviour {
     public Color midColor = Color.yellow;
     public Color hotColor = Color.red;
     public DataDisplay dataDisplay;
+    public string grasshopperFileDirectory;
 
     private Building[,] city;
     private SolarRadiation solarRadiation;
@@ -20,17 +21,18 @@ public class VirtualCityModel : MonoBehaviour {
     private float tempTime = -31;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         solarRadiation = GetComponent<SolarRadiation>();
         city = new Building[buildingsX, buildingsY];
-        for(int i = 0; i < buildingsX; i ++)
+        for (int i = 0; i < buildingsX; i++)
         {
-            for(int j = buildingsY - 1; j >= 0; j --)
+            for (int j = buildingsY - 1; j >= 0; j--)
             {
-                Building newBuilding = 
-                    ((GameObject) Instantiate(
-                        buildingPrefab, 
-                        this.transform.position + (new Vector3(i, 0, j)), 
+                Building newBuilding =
+                    ((GameObject)Instantiate(
+                        buildingPrefab,
+                        this.transform.position + (new Vector3(i, 0, j)),
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.transform.parent = this.transform;
@@ -39,8 +41,9 @@ public class VirtualCityModel : MonoBehaviour {
                 city[i, buildingsY - j - 1] = newBuilding;
             }
         }
-	}
-	
+        StartCoroutine("RunSolarSimulation");
+    }
+
 	// Update is called once per frame
 	void Update () {
         
@@ -65,5 +68,19 @@ public class VirtualCityModel : MonoBehaviour {
         {
             this.city[x, y].updateData(newData);
         }
+    }
+
+    IEnumerator RunSolarSimulation()
+    {
+        float time = 0;
+        while(time < 1)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        SolarRadiationSimulation tmp = this.gameObject.AddComponent<SolarRadiationSimulation>();
+        tmp.workingDirectory = this.grasshopperFileDirectory;
+        tmp.initialize(this.city);
     }
 }

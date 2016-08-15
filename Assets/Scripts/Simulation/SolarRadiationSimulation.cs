@@ -12,7 +12,7 @@ public class SolarRadiationSimulation : MonoBehaviour{
     private Building[,] city;
     private string heightDataPath;
     private string sensorDataPath;
-    private string workingDirectory;
+    public string workingDirectory;
     private string scriptName;
     
     internal void initialize(Building[,] city)
@@ -28,7 +28,6 @@ public class SolarRadiationSimulation : MonoBehaviour{
         {
             File.Delete(this.sensorDataPath);
         }
-        this.workingDirectory = "C:/Users/Alex/GitSpace/CityMatrixAR/Grasshopper";
         this.scriptName = this.workingDirectory + "/run.bat";
 
         this.WriteHeightFile();
