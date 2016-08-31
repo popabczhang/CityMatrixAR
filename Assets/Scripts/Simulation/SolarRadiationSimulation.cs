@@ -17,6 +17,7 @@ public class SolarRadiationSimulation : MonoBehaviour{
     
     internal void initialize(Building[,] city)
     {
+        Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CityMatrix");
         this.city = city;
         this.heightDataPath = 
             Environment.GetFolderPath(
@@ -24,6 +25,10 @@ public class SolarRadiationSimulation : MonoBehaviour{
         this.sensorDataPath =
             Environment.GetFolderPath(
                 Environment.SpecialFolder.MyDocuments) + "/CityMatrix/sensor-data.txt";
+        if(!File.Exists(this.heightDataPath))
+        {
+            File.Create(this.heightDataPath);
+        }
         if(File.Exists(this.sensorDataPath))
         {
             File.Delete(this.sensorDataPath);
