@@ -32,7 +32,7 @@ public class KinectHeadCamera : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Vector3 chosen;
+        Vector3 chosen = new Vector3();
         foreach(Body b in this.bodies)
         {
             CameraSpacePoint a = b.Joints[JointType.Head].Position;
@@ -40,6 +40,7 @@ public class KinectHeadCamera : MonoBehaviour {
             chosen.y = a.Y;
             chosen.z = a.Z;
         }
+        this.transform.position = chosen;
 	}
 
     void DrawBodies()
