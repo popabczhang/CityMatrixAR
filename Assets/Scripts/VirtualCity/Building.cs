@@ -40,7 +40,7 @@ public class Building : MonoBehaviour
     {
         this.data = newData;
         this.recolor(this.data.getColors());
-        this.changeHeight(this.data.height/this.data.width);
+        this.changeHeight(this.data.GetVirtualHeight());
     }
 
     /// <summary>

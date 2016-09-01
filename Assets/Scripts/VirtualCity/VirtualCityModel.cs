@@ -49,6 +49,11 @@ public class VirtualCityModel : MonoBehaviour {
         
     }
 
+    internal Building[,] GetCity()
+    {
+        return this.city;
+    }
+
     internal void updateBuilding(int id, int x, int y, int rotation)
     {
         BuildingData newData = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
@@ -70,6 +75,28 @@ public class VirtualCityModel : MonoBehaviour {
         }
     }
 
+    internal void changeBuildingHeight(int x, int y, float newHeight)
+    {
+        BuildingData newData = this.city[x, y].data;
+        newData.height = newHeight;
+
+        if (this.initialized)
+        {
+            switch (this.dataDisplay)
+            {
+                case (DataDisplay.SolarRadiation):
+                    this.solarRadiation.updateBuilding(this.city, newData);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            this.city[x, y].updateData(newData);
+        }
+    }
+
     IEnumerator RunSolarSimulation()
     {
         float time = 0;
@@ -82,5 +109,6 @@ public class VirtualCityModel : MonoBehaviour {
         SolarRadiationSimulation tmp = this.gameObject.AddComponent<SolarRadiationSimulation>();
         tmp.workingDirectory = this.grasshopperFileDirectory;
         tmp.initialize(this.city);
+        this.initialized = true;
     }
 }

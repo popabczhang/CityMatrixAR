@@ -114,6 +114,11 @@ public class BuildingData {
         return (BuildingData)this.MemberwiseClone();
     }
 
+    internal float GetVirtualHeight()
+    {
+        return this.height / this.width;
+    }
+
     internal Color[] getColors()
     {
         Color[] output = new Color[49];

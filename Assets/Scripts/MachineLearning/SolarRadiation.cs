@@ -26,6 +26,7 @@ public class SolarRadiation : MonoBehaviour {
 
     internal void updateBuilding(Building[,] city, BuildingData newData)
     {
+        Debug.Log("Hello");
         float newHeight = newData.height;
         newData.heatMap = city[newData.x, newData.y].data.heatMap;
         newData.height = city[newData.x, newData.y].data.height;
