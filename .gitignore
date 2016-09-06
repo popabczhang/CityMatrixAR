@@ -21,7 +21,6 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
-*.meta
 
 
 # Unity3D generated meta files
@@ -80,4 +79,3 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
