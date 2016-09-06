@@ -18,6 +18,8 @@ public class VirtualCityModel : MonoBehaviour {
 
     public enum DataDisplay {SolarRadiation};
 
+    public bool useWireframe = false;
+
     private float tempTime = -31;
 
     // Use this for initialization
@@ -35,6 +37,7 @@ public class VirtualCityModel : MonoBehaviour {
                         this.transform.position + (new Vector3(i, 0, j)),
                         Quaternion.identity))
                     .GetComponent<Building>();
+                newBuilding.drawWireframe = this.useWireframe;
                 newBuilding.transform.parent = this.transform;
                 newBuilding.data = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
                     -1, i, j, 0, 0, this.coolColor, this.midColor, this.hotColor);
@@ -77,7 +80,7 @@ public class VirtualCityModel : MonoBehaviour {
 
     internal void changeBuildingHeight(int x, int y, float newHeight)
     {
-        BuildingData newData = this.city[x, y].data;
+        BuildingData newData = this.city[x, y].data.Copy();
         newData.height = newHeight;
 
         if (this.initialized)

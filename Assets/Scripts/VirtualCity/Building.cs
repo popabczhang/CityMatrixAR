@@ -12,6 +12,13 @@ public class Building : MonoBehaviour
     private float minHeight = 0.1F;
     private float targetHeight;
 
+    public Color wireframeColor = Color.white;
+    public bool drawWireframe = false;
+    private float wireframeWidth = 0.015f;
+
+    Material wireframeMaterial;
+    private LineRenderer[] wireframe = new LineRenderer[12];
+
     // Use this for initialization
     void Start()
     {
@@ -23,13 +30,83 @@ public class Building : MonoBehaviour
             new Vector2(0.5f, 0.5f), 7f);
         this.sprite = sr.sprite;
         this.mFilter = GetComponent<MeshFilter>();
-        this.initializeMesh();
+        if (this.drawWireframe)
+        {
+            this.wireframeMaterial = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+        }
+        else {
+            this.initializeMesh();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.drawWireframe)
+        {
+            this.GetComponent<MeshRenderer>().enabled = false;
+            this.DrawWireframe();
+        }
+    }
+
+    void OnPreRender()
+    {
+
+    }
+
+    void DrawWireframe()
+    {
+        float h = this.transform.localScale.y;
+        Vector3 pos = this.transform.position;
+        Vector3 L00 = new Vector3(pos.x, pos.y, pos.z);
+        Vector3 L10 = new Vector3(pos.x + 1, pos.y, pos.z);
+        Vector3 L01 = new Vector3(pos.x, pos.y, pos.z + 1);
+        Vector3 L11 = new Vector3(pos.x + 1, pos.y, pos.z + 1);
+        Vector3 U00 = new Vector3(pos.x, pos.y + h, pos.z);
+        Vector3 U10 = new Vector3(pos.x + 1, pos.y + h, pos.z);
+        Vector3 U01 = new Vector3(pos.x, pos.y + h, pos.z + 1);
+        Vector3 U11 = new Vector3(pos.x + 1, pos.y + h, pos.z + 1);
+
+        DrawLine(0, L00, L01, this.wireframeColor, this.wireframeWidth);
+        DrawLine(1, L10, L11, this.wireframeColor, this.wireframeWidth);
+        DrawLine(2, L00, L10, this.wireframeColor, this.wireframeWidth);
+        DrawLine(3, L01, L11, this.wireframeColor, this.wireframeWidth);
+
+        DrawLine(4, L00, U00, this.wireframeColor, this.wireframeWidth);
+        DrawLine(5, L10, U10, this.wireframeColor, this.wireframeWidth);
+        DrawLine(6, L01, U01, this.wireframeColor, this.wireframeWidth);
+        DrawLine(7, L11, U11, this.wireframeColor, this.wireframeWidth);
+
+        DrawLine(8, U00, U01, this.wireframeColor, this.wireframeWidth);
+        DrawLine(9, U10, U11, this.wireframeColor, this.wireframeWidth);
+        DrawLine(10, U00, U10, this.wireframeColor, this.wireframeWidth);
+        DrawLine(11, U01, U11, this.wireframeColor, this.wireframeWidth);
+    }
+
+    void DrawLine(int id, Vector3 a, Vector3 b, Color color, float width)
+    {
+        if (this.wireframe[id] == null)
+        {
+            GameObject line = new GameObject();
+            line.transform.parent = this.transform;
+            line.AddComponent<LineRenderer>();
+            LineRenderer lr = line.GetComponent<LineRenderer>();
+            lr.material = this.wireframeMaterial;
+            lr.SetColors(color, color);
+            lr.SetWidth(width, width);
+            lr.SetPosition(0, a);
+            lr.SetPosition(1, b);
+            this.wireframe[id] = lr;
+        } else
+        {
+            LineRenderer lr = this.wireframe[id];
+            lr.SetPositions(new Vector3[]
+            {
+                a, b
+            });
+            lr.SetColors(color, color);
+            lr.SetWidth(width, width);
+        }
     }
 
     /// <summary>
