@@ -100,18 +100,13 @@ public class BuildingData {
         this.width = 30;
         this.magnitude = 0;
         this.heatMap = new double[7, 7];
-        for (int i = 0; i < 7; i++)
-        {
-            for (int j = 0; j < 7; j++)
-            {
-                this.heatMap[i, j] = 0;
-            }
-        }
     }
     
     public BuildingData Copy()
     {
-        return (BuildingData)this.MemberwiseClone();
+        BuildingData a = (BuildingData)this.MemberwiseClone();
+        a.heatMap = new double[7, 7];
+        return a;
     }
 
     internal float GetVirtualHeight()

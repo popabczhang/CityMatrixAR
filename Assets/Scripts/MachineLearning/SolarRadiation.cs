@@ -46,7 +46,8 @@ public class SolarRadiation : MonoBehaviour {
                 {
                     BuildingData tmp = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
                     -1, i, j, 0, 0, Color.blue, Color.blue, Color.blue);
-                    tmp.height = 0.1f;
+                    //TODO HEIGHT CHANGE
+                    tmp.height = 1f;
                     block[counter] = tmp;
                 } else
                 {
@@ -76,11 +77,13 @@ public class SolarRadiation : MonoBehaviour {
         float[] heightMap = new float[inputSize];
         for(int i = 0; i < inputSize; i ++)
         {
-            heightMap[i] = oldBlock[i].height;
+            //TODO HEIGHT CHANGE
+            heightMap[i] = (oldBlock[i].height + 25) / 25;
         }
         double[] deltas = new double[outputSize];
         double[] addDeltas = PredictCentralRemoval(heightMap);
-        heightMap[inputSize / 2] = newCenterHeight;
+        //TODO HEIGHT CHANGE
+        heightMap[inputSize / 2] = (newCenterHeight + 25) / 25;
         double[] subtractDeltas = PredictCentralRemoval(heightMap);
         for(int i = 0; i < outputSize; i ++)
         {
@@ -95,7 +98,7 @@ public class SolarRadiation : MonoBehaviour {
             {
                 for(int j = 0; j < sensorsX; j ++)
                 {
-                    heatMap[i, j] = heatMap[i, j] + deltas[counter];
+                    heatMap[i, j] = heatMap[i, j] - deltas[counter];
                     counter++;
                 }
             }
