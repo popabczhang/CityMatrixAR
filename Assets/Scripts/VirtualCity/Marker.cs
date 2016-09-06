@@ -4,8 +4,8 @@ using System.Collections;
 public class Marker : MonoBehaviour {
 
     VirtualCityModel city;
-    int x;
-    int z;
+    int x = 0;
+    int z = 0;
     float heightDelta = 10;
 
 	// Use this for initialization
