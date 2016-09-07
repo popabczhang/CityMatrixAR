@@ -13,25 +13,28 @@ public class KinectHeadCamera : MonoBehaviour {
     public int maxBodies = 12;
     public Transform kinect;
     public float spaceUnitsPerMeter;
+    public Vector3 kinectOffset;
     public bool useUdp = false;
     public int udpPort = 1234;
     public int udpWait = 10;
 
     KinectSensor sensor;
     BodyFrameReader bodyReader;
-    List<Body> bodies;
+    Body[] bodies;
 
     Vector3 kinectHeadPos;
 
     UdpClient udp;
     IPEndPoint ipEP;
+    bool listening = false;
 
 	// Use this for initialization
 	void Start () {
-        this.bodies = new List<Body>();
+        this.bodies = null;
         this.kinectHeadPos = this.transform.position;
         if (this.useUdp)
         {
+            this.listening = true;
             this.ipEP = new IPEndPoint(IPAddress.Any, this.udpPort);
             this.udp = new UdpClient(this.ipEP);
             this.QueryUdp(null);
@@ -40,7 +43,7 @@ public class KinectHeadCamera : MonoBehaviour {
             this.sensor = KinectSensor.GetDefault();
             this.sensor.Open();
             this.bodyReader = this.sensor.BodyFrameSource.OpenReader();
-            this.bodyReader.FrameArrived += this.OnBodyFrameArrived;
+            //this.bodyReader.FrameArrived += this.OnBodyFrameArrived;
         }
     }
 
@@ -49,19 +52,55 @@ public class KinectHeadCamera : MonoBehaviour {
     void Update () {
         if(!this.useUdp)
         {
-            Vector3 chosen = new Vector3();
+            if (this.bodyReader != null)
+            {
+                var frame = this.bodyReader.AcquireLatestFrame();
+                if (frame != null)
+                {
+                    if (this.bodies == null)
+                    {
+                        this.bodies = new Body[this.sensor.BodyFrameSource.BodyCount];
+                    }
+
+                    frame.GetAndRefreshBodyData(this.bodies);
+
+                    frame.Dispose();
+                    frame = null;
+                }
+            }
             foreach (Body b in this.bodies)
             {
-                CameraSpacePoint a = b.Joints[JointType.Head].Position;
-                chosen.x = a.X;
-                chosen.y = a.Y;
-                chosen.z = a.Z;
+                if (b.IsTracked)
+                {
+                    this.kinectHeadPos = this.CSP2Vector3(
+                        b.Joints[JointType.Head].Position);
+                    Debug.Log(this.kinectHeadPos);
+                }
             }
         }
         Vector3 pos = this.GetVirtualPosition(this.kinectHeadPos);
-        pos.z = Math.Min(0, pos.z);
+        pos.z = Math.Min(1, pos.z);
         this.transform.position = pos;
+    }
 
+    void OnApplicationQuit()
+    {
+        if (this.bodyReader != null)
+        {
+            this.bodyReader.Dispose();
+            this.bodyReader = null;
+        }
+
+        if (this.sensor != null)
+        {
+            if (this.sensor.IsOpen)
+            {
+                this.sensor.Close();
+            }
+
+            this.sensor = null;
+        }
+        this.listening = false;
     }
 
     private void OnBodyFrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -70,14 +109,19 @@ public class KinectHeadCamera : MonoBehaviour {
         if (frame != null)
         {
             frame.GetAndRefreshBodyData(this.bodies);
+            frame.Dispose();
+            frame = null;
         }
     }
 
     void QueryUdp(IAsyncResult previous)
     {
+        if(!this.listening)
+        {
+            return;
+        }
         if(previous == null)
         {
-            Debug.Log("Starting");
             this.udp.BeginReceive(new AsyncCallback(QueryUdp), null);
         } else
         {
@@ -107,7 +151,7 @@ public class KinectHeadCamera : MonoBehaviour {
 
     Vector3 GetVirtualPosition(Vector3 a)
     {
-        a = a * this.spaceUnitsPerMeter;
+        a = (a + this.kinectOffset) * this.spaceUnitsPerMeter;
         a.z = a.z * -1;
         a = a + this.kinect.position;
         return a;
