@@ -34,7 +34,7 @@ public class VirtualCityModel : MonoBehaviour {
                 Building newBuilding =
                     ((GameObject)Instantiate(
                         buildingPrefab,
-                        this.transform.position + (new Vector3(i, 0, j)),
+                        this.transform.position + new Vector3(i * this.transform.localScale.x, 0, j * this.transform.localScale.z),
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.drawWireframe = this.useWireframe;
@@ -70,6 +70,7 @@ public class VirtualCityModel : MonoBehaviour {
                     this.solarRadiation.updateBuilding(this.city, newData);
                     break;
                 default:
+                    this.city[x, y].updateData(newData);
                     break;
             }
         } else
@@ -91,6 +92,7 @@ public class VirtualCityModel : MonoBehaviour {
                     this.solarRadiation.updateBuilding(this.city, newData);
                     break;
                 default:
+                    this.city[x, y].updateData(newData);
                     break;
             }
         }

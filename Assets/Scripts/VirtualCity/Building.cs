@@ -58,14 +58,15 @@ public class Building : MonoBehaviour
     {
         float h = this.transform.localScale.y;
         Vector3 pos = this.transform.position;
+        Vector3 scale = this.transform.lossyScale;
         Vector3 L00 = new Vector3(pos.x, pos.y, pos.z);
-        Vector3 L10 = new Vector3(pos.x + 1, pos.y, pos.z);
-        Vector3 L01 = new Vector3(pos.x, pos.y, pos.z + 1);
-        Vector3 L11 = new Vector3(pos.x + 1, pos.y, pos.z + 1);
-        Vector3 U00 = new Vector3(pos.x, pos.y + h, pos.z);
-        Vector3 U10 = new Vector3(pos.x + 1, pos.y + h, pos.z);
-        Vector3 U01 = new Vector3(pos.x, pos.y + h, pos.z + 1);
-        Vector3 U11 = new Vector3(pos.x + 1, pos.y + h, pos.z + 1);
+        Vector3 L10 = new Vector3(pos.x + scale.x, pos.y, pos.z);
+        Vector3 L01 = new Vector3(pos.x, pos.y, pos.z + scale.z);
+        Vector3 L11 = new Vector3(pos.x + scale.x, pos.y, pos.z + scale.z);
+        Vector3 U00 = new Vector3(pos.x, pos.y + scale.y, pos.z);
+        Vector3 U10 = new Vector3(pos.x + scale.x, pos.y + scale.y, pos.z);
+        Vector3 U01 = new Vector3(pos.x, pos.y + scale.y, pos.z + scale.z);
+        Vector3 U11 = new Vector3(pos.x + scale.x, pos.y + scale.y, pos.z + scale.z);
 
         DrawLine(0, L00, L01, this.wireframeColor, this.wireframeWidth);
         DrawLine(1, L10, L11, this.wireframeColor, this.wireframeWidth);
