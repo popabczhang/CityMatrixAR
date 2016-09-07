@@ -44,12 +44,14 @@ public class VirtualCityModel : MonoBehaviour {
                 city[i, buildingsY - j - 1] = newBuilding;
             }
         }
-        StartCoroutine("RunSolarSimulation");
     }
 
 	// Update is called once per frame
 	void Update () {
-        
+        if(Input.GetButtonDown("RunSimulation"))
+        {
+            StartCoroutine("RunSolarSimulation");
+        }
     }
 
     internal Building[,] GetCity()
