@@ -42,7 +42,7 @@ public class ColorizerCtrl : MonoBehaviour {
         WWW jsonPage = new WWW(this.JsonURL);
         float t = Time.time;
         yield return jsonPage;
-        Debug.Log(Time.time - t);
+        //Debug.Log(Time.time - t);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
 
         for(int i = 0; i < data.grid.Length; i ++)
@@ -57,7 +57,7 @@ public class ColorizerCtrl : MonoBehaviour {
                 this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
             }
         }
-        Debug.Log(Time.time - t);
+        //Debug.Log(Time.time - t);
         StartCoroutine("CheckForUpdates");
     }
 }
