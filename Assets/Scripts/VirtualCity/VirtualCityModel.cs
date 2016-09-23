@@ -36,7 +36,7 @@ public class VirtualCityModel : MonoBehaviour {
                 Vector3 pos = this.transform.position +
                     (this.reflectXY ?
                     new Vector3(i * (1 + this.spacing), 0,
-                    -1* j * (-1 - this.spacing)) :
+                    this.buildingsY - j * (1 + this.spacing)) :
                     new Vector3(i * (1 + this.spacing), 0,
                     j * (1 + this.spacing)));
                 Building newBuilding =
