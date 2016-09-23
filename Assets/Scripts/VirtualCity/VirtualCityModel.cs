@@ -6,6 +6,8 @@ public class VirtualCityModel : MonoBehaviour {
     public GameObject buildingPrefab;
     public int buildingsX = 10;
     public int buildingsY = 10;
+    public float spacing = 0;
+    public bool reflectXY = false;
     public Color coolColor = Color.blue;
     public Color midColor = Color.yellow;
     public Color hotColor = Color.red;
@@ -31,10 +33,16 @@ public class VirtualCityModel : MonoBehaviour {
         {
             for (int j = buildingsY - 1; j >= 0; j--)
             {
+                Vector3 pos = this.transform.position +
+                    (this.reflectXY ?
+                    new Vector3(i * (1 + this.spacing), 0,
+                    -1* j * (-1 - this.spacing)) :
+                    new Vector3(i * (1 + this.spacing), 0,
+                    j * (1 + this.spacing)));
                 Building newBuilding =
                     ((GameObject)Instantiate(
                         buildingPrefab,
-                        this.transform.position + new Vector3(i * this.transform.localScale.x, 0, j * this.transform.localScale.z),
+                        pos,
                         Quaternion.identity))
                     .GetComponent<Building>();
                 newBuilding.drawWireframe = this.useWireframe;
