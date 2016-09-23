@@ -29,6 +29,7 @@ public class ColorizerCtrl : MonoBehaviour {
 
         foreach(JSONBuilding b in data.grid)
         {
+            b.Correct(15, 15);
             this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
         }
 
@@ -39,17 +40,24 @@ public class ColorizerCtrl : MonoBehaviour {
     IEnumerator CheckForUpdates()
     {
         WWW jsonPage = new WWW(this.JsonURL);
+        float t = Time.time;
         yield return jsonPage;
+        Debug.Log(Time.time - t);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
 
         for(int i = 0; i < data.grid.Length; i ++)
         {
-            if(!data.grid[i].Equals(oldData.grid[i]))
+            JSONBuilding a = data.grid[i];
+            a.Correct(15,15);
+            if(a.Changes(cityModel.GetCity()[a.x,a.y].data))
             {
+                //Debug.Log(a.x);
+                //Debug.Log(a.y);
                 JSONBuilding b = data.grid[i];
                 this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
             }
         }
+        Debug.Log(Time.time - t);
         StartCoroutine("CheckForUpdates");
     }
 }
@@ -89,6 +97,28 @@ class JSONBuilding
             this.y.GetHashCode() *
             this.magnitude.GetHashCode() *
             this.rot.GetHashCode();
+    }
+    /// <summary>
+    /// Normalizes this building into bottom-left origin coordinates
+    /// </summary>
+    public void Correct(int maxX, int maxY)
+    {
+        this.x = maxX - this.x;
+        this.y = maxY - this.y;
+    }
+
+    /// <summary>
+    /// Returns true if this new JSONBuildingData alters the input buildingData a
+    /// </summary>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    public bool Changes(BuildingData a)
+    {
+        return this.x == a.x &&
+            this.y == a.y &&
+            (this.type != a.id ||
+            this.magnitude != a.magnitude ||
+            this.rot != a.rotation);
     }
 }
 

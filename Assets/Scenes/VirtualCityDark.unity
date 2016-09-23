@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3916775, g: 0.43534702, b: 0.50396615, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -387,7 +387,7 @@ MonoBehaviour:
   buildingsX: 16
   buildingsY: 16
   spacing: 0.1
-  reflectXY: 1
+  reflectXY: 0
   coolColor: {r: 0.058823533, g: 0.5254902, b: 0, a: 1}
   midColor: {r: 1, g: 1, b: 0, a: 1}
   hotColor: {r: 0.9725491, g: 0.04705883, b: 0, a: 1}
@@ -402,7 +402,7 @@ Transform:
   m_GameObject: {fileID: 1135186508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1839330006}

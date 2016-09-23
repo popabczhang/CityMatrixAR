@@ -31,7 +31,7 @@ public class VirtualCityModel : MonoBehaviour {
         city = new Building[buildingsX, buildingsY];
         for (int i = 0; i < buildingsX; i++)
         {
-            for (int j = buildingsY - 1; j >= 0; j--)
+            for (int j = 0; j < buildingsY; j++)
             {
                 Vector3 pos = this.transform.position +
                     (this.reflectXY ?
@@ -49,7 +49,7 @@ public class VirtualCityModel : MonoBehaviour {
                 newBuilding.transform.parent = this.transform;
                 newBuilding.data = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
                     -1, i, j, 0, 0, this.coolColor, this.midColor, this.hotColor);
-                city[i, buildingsY - j - 1] = newBuilding;
+                city[i, j] = newBuilding;
             }
         }
     }
