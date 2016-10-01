@@ -9,13 +9,13 @@ using System.Diagnostics;
 public class SolarRadiationSimulation : MonoBehaviour{
 
 
-    private Building[,] city;
+    private BuildingModel[,] city;
     private string heightDataPath;
     private string sensorDataPath;
     public string workingDirectory;
     private string scriptName;
     
-    internal void initialize(Building[,] city)
+    internal void initialize(BuildingModel[,] city)
     {
         Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/CityMatrix");
         this.city = city;
@@ -50,10 +50,10 @@ public class SolarRadiationSimulation : MonoBehaviour{
 
         for (int j = 0; j < city.GetLength(1); j++)
         {
-            output[j] = city[0, j].data.width.ToString() + "-" + city[0, j].data.height.ToString();
+            output[j] = city[0, j].Width.ToString() + "-" + city[0, j].Height.ToString();
             for (int i = 1; i < city.GetLength(0); i ++)
             {
-                output[j] = output[j] + "," + city[i, j].data.width.ToString() + "-" + city[i, j].data.height.ToString();
+                output[j] = output[j] + "," + city[i, j].Width.ToString() + "-" + city[i, j].Height.ToString();
             }
         }
         System.IO.File.WriteAllLines(this.heightDataPath, output);
@@ -83,18 +83,17 @@ public class SolarRadiationSimulation : MonoBehaviour{
         double max = data.Max();
 
         int a = 0;
-        foreach(Building b in this.city)
+        foreach(BuildingModel b in this.city)
         {
             for(int i = 0; i < 7; i ++)
             {
                 for(int j = 0; j < 7; j ++)
                 {
-                    b.data.heatMap[i, j] = data[a];
-                    b.data.colorRef = max;
+                    b.HeatMap[i, j] = data[a];
+                    b.ColorRef = max;
                     a++;
                 }
             }
-            b.updateData(b.data);
         }
     }
 }

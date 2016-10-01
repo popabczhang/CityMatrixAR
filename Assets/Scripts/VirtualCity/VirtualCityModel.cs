@@ -3,53 +3,25 @@ using System.Collections;
 
 public class VirtualCityModel : MonoBehaviour {
 
-    public GameObject buildingPrefab;
     public int buildingsX = 10;
     public int buildingsY = 10;
-    public float spacing = 0;
-    public bool reflectXY = false;
-    public Color coolColor = Color.blue;
-    public Color midColor = Color.yellow;
-    public Color hotColor = Color.red;
-    public DataDisplay dataDisplay;
     public string grasshopperFileDirectory;
 
-    private Building[,] city;
+    private BuildingModel[,] city;
     private SolarRadiation solarRadiation;
     private bool initialized = false;
-
-    public enum DataDisplay {SolarRadiation};
-
-    public bool useWireframe = false;
-
-    private float tempTime = -31;
 
     // Use this for initialization
     void Start()
     {
         solarRadiation = GetComponent<SolarRadiation>();
-        city = new Building[buildingsX, buildingsY];
+        city = new BuildingModel[buildingsX, buildingsY];
         for (int i = 0; i < buildingsX; i++)
         {
             for (int j = 0; j < buildingsY; j++)
             {
-                Vector3 pos = this.transform.position +
-                    (this.reflectXY ?
-                    new Vector3(i * (1 + this.spacing), 0,
-                    this.buildingsY - j * (1 + this.spacing)) :
-                    new Vector3(i * (1 + this.spacing), 0,
-                    j * (1 + this.spacing)));
-                Building newBuilding =
-                    ((GameObject)Instantiate(
-                        buildingPrefab,
-                        pos,
-                        Quaternion.identity))
-                    .GetComponent<Building>();
-                newBuilding.drawWireframe = this.useWireframe;
-                newBuilding.transform.parent = this.transform;
-                newBuilding.data = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
-                    -1, i, j, 0, 0, this.coolColor, this.midColor, this.hotColor);
-                city[i, j] = newBuilding;
+                city[i, j] = new BuildingModel();
+                city[i, j].parentModel = this;
             }
         }
     }
@@ -62,54 +34,9 @@ public class VirtualCityModel : MonoBehaviour {
         }
     }
 
-    internal Building[,] GetCity()
+    internal BuildingModel[,] GetCity()
     {
-        return this.city;
-    }
-
-    internal void updateBuilding(int id, int x, int y, int rotation)
-    {
-        BuildingData newData = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
-                    id, x, y, rotation, 0, this.coolColor, this.midColor, this.hotColor);
-
-        if (this.initialized)
-        {
-            switch (this.dataDisplay)
-            {
-                case (DataDisplay.SolarRadiation):
-                    this.solarRadiation.updateBuilding(this.city, newData);
-                    break;
-                default:
-                    this.city[x, y].updateData(newData);
-                    break;
-            }
-        } else
-        {
-            this.city[x, y].updateData(newData);
-        }
-    }
-
-    internal void changeBuildingHeight(int x, int y, float newHeight)
-    {
-        BuildingData newData = this.city[x, y].data.Copy();
-        newData.height = newHeight;
-
-        if (this.initialized)
-        {
-            switch (this.dataDisplay)
-            {
-                case (DataDisplay.SolarRadiation):
-                    this.solarRadiation.updateBuilding(this.city, newData);
-                    break;
-                default:
-                    this.city[x, y].updateData(newData);
-                    break;
-            }
-        }
-        else
-        {
-            this.city[x, y].updateData(newData);
-        }
+        return (BuildingModel[,]) this.city;
     }
 
     IEnumerator RunSolarSimulation()

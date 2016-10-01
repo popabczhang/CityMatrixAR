@@ -24,19 +24,18 @@ public class SolarRadiation : MonoBehaviour {
 	    
 	}
 
-    internal void updateBuilding(Building[,] city, BuildingData newData)
+    internal void updateBuilding(BuildingModel[,] city, BuildingModel newData)
     {
         Debug.Log("Hello");
-        float newHeight = newData.height;
-        newData.heatMap = city[newData.x, newData.y].data.heatMap;
-        newData.height = city[newData.x, newData.y].data.height;
-        city[newData.x, newData.y].updateData(newData);
+        float newHeight = newData.Height;
+        newData.HeatMap = city[newData.x, newData.y].HeatMap;
+        newData.Height = city[newData.x, newData.y].Height;
         this.changeBuildingHeight(city, newData.x, newData.y, newHeight);
     }
 
-    internal void changeBuildingHeight(Building[,] city, int x, int y, float newHeight)
+    internal void changeBuildingHeight(BuildingModel[,] city, int x, int y, float newHeight)
     {
-        BuildingData[] block = new BuildingData[inputSize];
+        BuildingModel[] block = new BuildingModel[inputSize];
         int counter = 0;
         for(int i = x - inputWidth / 2; i < x + inputWidth / 2 + 1; i ++)
         {
@@ -44,41 +43,29 @@ public class SolarRadiation : MonoBehaviour {
             {
                 if (i < 0 || j < 0 || i >= city.GetLength(0) || j >= city.GetLength(1))
                 {
-                    BuildingData tmp = this.GetComponent<BuildingDataCtrl>().constructBuildingData(
-                    -1, i, j, 0, 0, Color.blue, Color.blue, Color.blue);
+                    BuildingModel tmp = new BuildingModel();
+                    tmp.Height = 1;
                     //TODO HEIGHT CHANGE
-                    tmp.height = 1f;
                     block[counter] = tmp;
                 } else
                 {
-                    block[counter] = city[i, j].data;
+                    block[counter] = city[i, j];
                 }
                 counter++;
             }
         }
         counter = 0;
         updateBlock(block, newHeight);
-        block[inputSize / 2].height = newHeight;
-        for (int i = x - inputWidth / 2; i < x + inputWidth / 2 + 1; i++)
-        {
-            for (int j = y - inputWidth / 2; j < y + inputWidth / 2 + 1; j++)
-            {
-                if (!(i < 0 || j < 0 || i >= city.GetLength(0) || j >= city.GetLength(1)))
-                {
-                    city[i, j].updateData(block[counter]);
-                }
-                counter++;
-            }
-        }
+        block[inputSize / 2].Height = newHeight;
     }
 
-    private void updateBlock(BuildingData[] oldBlock, float newCenterHeight)
+    private void updateBlock(BuildingModel[] oldBlock, float newCenterHeight)
     {
         float[] heightMap = new float[inputSize];
         for(int i = 0; i < inputSize; i ++)
         {
             //TODO HEIGHT CHANGE
-            heightMap[i] = (oldBlock[i].height + 25) / 25;
+            heightMap[i] = (oldBlock[i].Height + 25) / 25;
         }
         double[] deltas = new double[outputSize];
         double[] addDeltas = PredictCentralRemoval(heightMap);
@@ -93,7 +80,7 @@ public class SolarRadiation : MonoBehaviour {
         int counter = 0;
         for(int b = 0; b < inputSize; b ++)
         {
-            double[,] heatMap = oldBlock[b].heatMap;
+            double[,] heatMap = oldBlock[b].HeatMap;
             for(int i = 0; i < sensorsX; i ++)
             {
                 for(int j = 0; j < sensorsX; j ++)
@@ -102,7 +89,7 @@ public class SolarRadiation : MonoBehaviour {
                     counter++;
                 }
             }
-            oldBlock[b].heatMap = heatMap;
+            oldBlock[b].HeatMap = heatMap;
         }
     }
 

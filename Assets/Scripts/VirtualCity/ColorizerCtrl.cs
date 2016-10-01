@@ -10,10 +10,12 @@ public class ColorizerCtrl : MonoBehaviour {
     public string JsonURL;
 
     private JSONCityMatrix oldData;
+    private BuildingModel[,] city;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         StartCoroutine("Initialize");
+        city = cityModel.GetCity();
     }
 
     // Update is called once per frame
@@ -27,10 +29,11 @@ public class ColorizerCtrl : MonoBehaviour {
         yield return jsonPage;
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
 
+
         foreach(JSONBuilding b in data.grid)
         {
             b.Correct(15, 15);
-            this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
+            city[b.x, b.y].JSONUpdate(b);
         }
 
         this.oldData = data;
@@ -49,12 +52,12 @@ public class ColorizerCtrl : MonoBehaviour {
         {
             JSONBuilding a = data.grid[i];
             a.Correct(15,15);
-            if(a.Changes(cityModel.GetCity()[a.x,a.y].data))
+            if(a.Changes(cityModel.GetCity()[a.x,a.y]))
             {
                 //Debug.Log(a.x);
                 //Debug.Log(a.y);
                 JSONBuilding b = data.grid[i];
-                this.cityModel.updateBuilding(b.type, b.x, b.y, b.rot);
+                city[b.x, b.y].JSONUpdate(b);
             }
         }
         //Debug.Log(Time.time - t);
@@ -71,7 +74,7 @@ class JSONCityMatrix
 }
 
 [Serializable]
-class JSONBuilding
+public class JSONBuilding
 {
     public int type;
     public int x;
@@ -112,13 +115,13 @@ class JSONBuilding
     /// </summary>
     /// <param name="a"></param>
     /// <returns></returns>
-    public bool Changes(BuildingData a)
+    public bool Changes(BuildingModel a)
     {
         return this.x == a.x &&
             this.y == a.y &&
-            (this.type != a.id ||
-            this.magnitude != a.magnitude ||
-            this.rot != a.rotation);
+            (this.type != a.Id ||
+            this.magnitude != a.Magnitude ||
+            this.rot != a.Rotation);
     }
 }
 

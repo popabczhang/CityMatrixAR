@@ -6,136 +6,120 @@ using System.Linq;
 
 public class BuildingDataCtrl : MonoBehaviour
 {
-    public TextAsset buildingTypeData;
-    public float BuildingBaseWidth = 30;
+    public static BuildingDataCtrl instance = null;
 
-    private Dictionary<int, BuildingData> types;
+    public IdDataStruct[] buildingTypes;
 
     void Awake()
     {
-        types = new Dictionary<int, BuildingData>();
-        BuildingData tmp = new BuildingData();
-        tmp.width = this.BuildingBaseWidth;
-        types.Add(-1, tmp);
-        string[] entries = buildingTypeData.text.Split('\n');
-        string[] categories = entries[0].Split(',');
-        foreach(string entry in entries.Skip(1).ToArray())
+        if(instance == null)
         {
-            if(entry == "")
-            {
-                break;
-            }
-            BuildingData type = new BuildingData();
-            type.width = this.BuildingBaseWidth;
-
-            int i = 0;
-            foreach (string value in entry.Split(','))
-            {
-                switch(categories[i])
-                {
-                    case "id":
-                        type.id = int.Parse(value);
-                        break;
-                    case "height":
-                        type.height = float.Parse(value);
-                        break;
-                    default:
-                        break;
-                }
-                i++;
-            }
-            types[type.id] = type;
+            instance = this;
+        } else
+        {
+            Destroy(this.gameObject);
         }
     }
 
-    public BuildingData constructBuildingData(int id, int x, int y, int rotation, int magnitude, 
-        Color coolColor, Color midColor, Color hotColor)
+    internal void UpdateBuildingModel(BuildingModel model, int id)
     {
-        BuildingData output;
-        if (this.types.ContainsKey(id))
+        IdDataStruct type = System.Array.Find(buildingTypes, a => a.ID == id);
+        if (type != null)
         {
-            output = this.types[id].Copy();
-        } else
-        {
-            Debug.LogError("Building type not found: " + id.ToString() + " --Using -1.");
-            output = this.types[-1].Copy();
+            model.Height = type.height;
+            model.Width = type.width;
         }
-        output.x = x;
-        output.y = y;
-        output.rotation = rotation;
-        output.magnitude = magnitude;
-        output.coolColor = coolColor;
-        output.midColor = midColor;
-        output.hotColor = hotColor;
-        return output;
+        
+    }
+
+    [System.Serializable]
+    public class IdDataStruct
+    {
+        public int ID;
+        public float height;
+        public float width;
     }
 }
 
-public class BuildingData {
+public class BuildingModel {
 
-    public int id;
+    public VirtualCityModel parentModel;
+    private int _id;
+    public int Id {
+        get {
+            return _id; }
+        set
+        {
+            BuildingDataCtrl.instance.UpdateBuildingModel(this, value);
+            _id = value; }
+    }
     public int x;
     public int y;
-    public float height;
-    public float width;
-    public int rotation;
-    public int magnitude;
-    public double[,] heatMap;
-    public double colorRef = 1;
-    public Color coolColor;
-    public Color midColor;
-    public Color hotColor;
-
-    public BuildingData()
+    private float _height;
+    public float Height {
+        get { return _height; }
+        set { _height = value; }
+    }
+    private float _width;
+    public float Width {
+        get { return _width; }
+        set { _width = value; }
+    }
+    private int _rotation;
+    public int Rotation
     {
-        this.id = -1;
+        get { return _rotation; }
+        set { _rotation = value; }
+    }
+    private int _magnitude;
+    public int Magnitude
+    {
+        get { return _magnitude; }
+        set { _magnitude = value; }
+    }
+    private double[,] _heatMap;
+    public double[,] HeatMap
+    {
+        get { return _heatMap; }
+        set { _heatMap = value; }
+    }
+    private double _colorRef;
+    public double ColorRef
+    {
+        get { return _colorRef; }
+        set { _colorRef = value; }
+    }
+    private Building[] _views;
+    public Building[] Views
+    {
+        get { return _views; }
+        set { _views = value; }
+    }
+
+    public BuildingModel()
+    {
+        this._id = -1;
         this.x = 0;
         this.y = 0;
-        this.rotation = 0;
-        this.coolColor = Color.green;
-        this.midColor = Color.red;
-        this.hotColor = Color.yellow;
+        this._rotation = 0;
 
-        this.height = 0.1f;
-        this.width = 30;
-        this.magnitude = 0;
-        this.heatMap = new double[7, 7];
+        this._height = 0.1f;
+        this._width = 30;
+        this._magnitude = 0;
+        this._heatMap = new double[7, 7];
+    }
+
+    public void JSONUpdate(JSONBuilding b)
+    {
+        this.Id = b.type;
+        this.Rotation = b.rot;
+        this.Magnitude = b.magnitude;
     }
     
-    public BuildingData Copy()
+    public BuildingModel Copy()
     {
-        BuildingData a = (BuildingData)this.MemberwiseClone();
-        a.heatMap = new double[7, 7];
+        BuildingModel a = (BuildingModel)this.MemberwiseClone();
+        a._heatMap = new double[7, 7];
         return a;
     }
-
-    internal float GetVirtualHeight()
-    {
-        return this.height / this.width;
-    }
-
-    internal Color[] getColors()
-    {
-        Color[] output = new Color[49];
-        int a = 0;
-        for(int j = this.heatMap.GetLength(1) - 1; j >= 0; j --)
-        {
-            for(int i = 0; i < this.heatMap.GetLength(0); i ++)
-            {
-                double val = this.heatMap[i, j] / this.colorRef;
-                if (val < 0.5f)
-                {
-                    output[a] = Color.Lerp(this.coolColor, this.midColor, (float) val * 2f);
-                }
-                else
-                {
-                    output[a] = Color.Lerp(this.midColor, this.hotColor, (float) (val - 0.5d) * 2);
-                }
-                a++;
-            }
-        }
-        
-        return output;
-    }
-
 }

@@ -3,19 +3,20 @@ using System.Collections;
 
 public class Marker : MonoBehaviour {
 
-    VirtualCityModel city;
+    VirtualCityModel virtualCity;
+    BuildingModel[,] city;
     int x = 0;
     int z = 0;
     float heightDelta = 10;
 
 	// Use this for initialization
 	void Start () {
-        this.city = this.transform.parent.GetComponent<VirtualCityModel>();
+        this.virtualCity = this.transform.parent.GetComponent<VirtualCityModel>();
+        this.city = this.virtualCity.GetCity();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Building[,] city = this.city.GetCity();
 
         if (Input.GetButtonDown("MarkerRight") && this.x < city.GetLength(0) - 1)
         {
@@ -35,15 +36,15 @@ public class Marker : MonoBehaviour {
 
         if(Input.GetButtonDown("MarkerUp"))
         {
-            this.city.changeBuildingHeight(this.x, this.z, city[x, z].data.height + heightDelta);
+            this.city[this.x, this.z].Height += heightDelta;
         } else if(Input.GetButtonDown("MarkerDown"))
         {
-            this.city.changeBuildingHeight(this.x, this.z, city[x, z].data.height - heightDelta);
+            this.city[this.x, this.z].Height += heightDelta;
         }
 
-
-        Vector3 pos = city[x, z].transform.localPosition;
-        pos.y = city[x, z].data.GetVirtualHeight();
+        //TODO fix
+        Vector3 pos = new Vector3(this.x, this.z);
+        //pos.y = city[x, z].data.GetVirtualHeight();
         this.transform.localPosition = pos;
 	}
 }

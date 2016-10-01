@@ -5,7 +5,7 @@ public class Building : MonoBehaviour
 {
     public float slideFactor = (float)0.2;
 
-    internal BuildingData data;
+    internal BuildingModel data;
     private MeshFilter mFilter;
     private float topGap = 0.01F;
     private Sprite sprite;
@@ -108,17 +108,6 @@ public class Building : MonoBehaviour
             lr.SetColors(color, color);
             lr.SetWidth(width, width);
         }
-    }
-
-    /// <summary>
-    /// Updates this building with the given data, making any other changes that are ramifaications of that change.
-    /// </summary>
-    /// <param name="newData">The data to replace the old with.</param>
-    internal void updateData(BuildingData newData)
-    {
-        this.data = newData;
-        this.recolor(this.data.getColors());
-        this.changeHeight(this.data.GetVirtualHeight());
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.3916775, g: 0.43534702, b: 0.50396615, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -383,17 +383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f7c150490bf8b49a8e44f14c1ff791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingPrefab: {fileID: 128288, guid: b98c9e4d7090f83448f419f9c183a4a8, type: 2}
   buildingsX: 16
   buildingsY: 16
-  spacing: 0.1
-  reflectXY: 1
-  coolColor: {r: 0.058823533, g: 0.5254902, b: 0, a: 1}
-  midColor: {r: 1, g: 1, b: 0, a: 1}
-  hotColor: {r: 0.9725491, g: 0.04705883, b: 0, a: 1}
-  dataDisplay: 0
   grasshopperFileDirectory: C:/Users/Alex/GitSpace/CityMatrixAR/Grasshopper
-  useWireframe: 0
 --- !u!4 &1135186510
 Transform:
   m_ObjectHideFlags: 0
@@ -444,8 +436,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4714723eb9efd4ea0dec55b072dbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingTypeData: {fileID: 4900000, guid: db2532f775e880744a0d9232d91d0781, type: 3}
-  BuildingBaseWidth: 30
+  buildingTypes:
+  - ID: 0
+    height: 10
+    width: 30
+  - ID: 1
+    height: 20
+    width: 30
+  - ID: 2
+    height: 30
+    width: 30
+  - ID: 3
+    height: 40
+    width: 30
+  - ID: 4
+    height: 50
+    width: 30
+  - ID: 5
+    height: 60
+    width: 30
+  - ID: 6
+    height: 70
+    width: 30
+  - ID: 7
+    height: 80
+    width: 30
+  - ID: -1
+    height: 0.1
+    width: 30
 --- !u!1 &1751163271
 GameObject:
   m_ObjectHideFlags: 0
