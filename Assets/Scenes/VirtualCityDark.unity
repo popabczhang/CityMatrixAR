@@ -784,7 +784,6 @@ GameObject:
   - 20: {fileID: 1199370123}
   - 124: {fileID: 1199370122}
   - 92: {fileID: 1199370121}
-  - 81: {fileID: 1199370120}
   m_Layer: 0
   m_Name: TableCamera
   m_TagString: Untagged
@@ -792,13 +791,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1199370120
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1199370119}
-  m_Enabled: 1
 --- !u!92 &1199370121
 Behaviour:
   m_ObjectHideFlags: 0
