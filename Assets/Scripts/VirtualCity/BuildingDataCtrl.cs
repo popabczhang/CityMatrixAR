@@ -108,18 +108,34 @@ public class BuildingModel {
     private float _height;
     public float Height {
         get { return _height; }
-        set { _height = value; }
+        set {
+            _height = value;
+            foreach (Building b in views)
+            {
+                b.Height = GetVirtualHeight();
+            }
+        }
     }
     private float _width;
     public float Width {
         get { return _width; }
-        set { _width = value; }
+        set { _width = value;
+            foreach (Building b in views)
+            {
+                b.Height = GetVirtualHeight();
+            }
+        }
     }
     private int _rotation;
     public int Rotation
     {
         get { return _rotation; }
-        set { _rotation = value; }
+        set { _rotation = value;
+            foreach (Building b in views)
+            {
+                b.Rotation = value;
+            }
+        }
     }
     private int _magnitude;
     public int Magnitude
@@ -131,13 +147,23 @@ public class BuildingModel {
     public double[,] HeatMap
     {
         get { return _heatMap; }
-        set { _heatMap = value; }
+        set { _heatMap = value;
+            foreach(Building b in views)
+            {
+                b.Recolor(_colorRef, _heatMap);
+            }
+        }
     }
     private double _colorRef;
     public double ColorRef
     {
         get { return _colorRef; }
-        set { _colorRef = value; }
+        set { _colorRef = value;
+            foreach (Building b in views)
+            {
+                b.Recolor(_colorRef, _heatMap);
+            }
+        }
     }
 
     private GameObject _flatView;
@@ -148,6 +174,7 @@ public class BuildingModel {
             foreach(Building b in views)
             {
                 b.flatPrefab = value;
+                b.UpdateView();
             }
         }
     }
@@ -161,6 +188,7 @@ public class BuildingModel {
             foreach (Building b in views)
             {
                 b.meshPrefab = value;
+                b.UpdateView();
             }
         }
     }
@@ -189,6 +217,7 @@ public class BuildingModel {
         b.Height = this.GetVirtualHeight();
         b.flatPrefab = this.FlatView;
         b.meshPrefab = this.MeshView;
+        //b.Recolor(_colorRef, _heatMap);
         //b.Rotation = this.Rotation;
 
     }

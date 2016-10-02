@@ -20,6 +20,7 @@ public class VirtualCityView : MonoBehaviour {
 
     public GameObject buildingPrefab;
 
+    public Gradient _colorGradient;
     public float Spacing;
 
     private Building[,] city;
@@ -30,6 +31,27 @@ public class VirtualCityView : MonoBehaviour {
         city = new Building[this.Width, this.Length];
         StartCoroutine("Initialize");
 	}
+
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector3 pos = this.transform.position;
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(pos, pos + new Vector3((1 + this.Spacing) * this.Width, 0, 0));
+        Gizmos.DrawLine(pos, pos + new Vector3(0, 0, (1 + this.Spacing) * this.Length));
+        Gizmos.DrawLine(
+            pos + new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length), 
+            pos + new Vector3((1 + this.Spacing) * this.Width, 0, 0));
+        Gizmos.DrawLine(
+            pos + new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length), 
+            pos + new Vector3(0, 0, (1 + this.Spacing) * this.Length));
+    }
 
     IEnumerator Initialize()
     {
@@ -50,11 +72,6 @@ public class VirtualCityView : MonoBehaviour {
             }
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     Vector3 GetBuildingPos(int i, int j)
     {

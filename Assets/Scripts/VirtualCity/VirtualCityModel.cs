@@ -26,11 +26,14 @@ public class VirtualCityModel : MonoBehaviour {
         }
     }
 
+    float tempt = 0;
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetButtonDown("RunSimulation"))
+        tempt += Time.deltaTime;
+        if(Input.GetButtonDown("RunSimulation") && tempt > 3)
         {
             StartCoroutine("RunSolarSimulation");
+            tempt = 0;
         }
     }
 
@@ -49,6 +52,7 @@ public class VirtualCityModel : MonoBehaviour {
 
     IEnumerator RunSolarSimulation()
     {
+        Debug.Log("Starting Solar Simulation");
         float time = 0;
         while(time < 1)
         {

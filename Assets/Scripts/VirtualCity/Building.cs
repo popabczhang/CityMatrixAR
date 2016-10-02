@@ -17,6 +17,14 @@ public class Building : MonoBehaviour
             this.UpdateView();
         }
     }
+    private int _rotation;
+    public int Rotation
+    {
+        get { return _rotation; }
+        set { _rotation = value;
+            this.UpdateView();
+        }
+    }
 
     [Header("View Meshes")]
     public GameObject meshPrefab;
@@ -27,14 +35,10 @@ public class Building : MonoBehaviour
     public float Height
     {
         get { return targetHeight; }
-        set { this.targetHeight = value;
+        set { this.targetHeight = value > minHeight ? value : minHeight;
             StartCoroutine("HeightSlide");
         }
     }
-    public float spriteTopGap = 0.01F;
-    public float heightSlideFactor = (float)0.2;
-    private Sprite sprite;
-    private float minHeight = 0.1F;
 
     [Header("Wireframe Properties")]
     public Material wireframeMaterial = null;
@@ -42,6 +46,13 @@ public class Building : MonoBehaviour
     public bool drawWireframe = false;
     private float wireframeWidth = 0.015f;
     private LineRenderer[] wireframe = new LineRenderer[12];
+
+    [Header("Solid Properties")]
+    public Material solidMaterial;
+    public float spriteTopGap = 0.01F;
+    public float heightSlideFactor = (float)0.2;
+    private Sprite sprite;
+    private float minHeight = 0.1F;
 
     // Use this for initialization
     void Start()
@@ -68,7 +79,7 @@ public class Building : MonoBehaviour
         }
     }
 
-    void UpdateView()
+    internal void UpdateView()
     {
         Transform flat = this.transform.Find("FlatView");
         if (flat != null) flat.gameObject.SetActive(false);
@@ -87,10 +98,11 @@ public class Building : MonoBehaviour
         switch(this._type)
         {
             case Type.FLAT:
-                if(flat != null) Destroy(flat.gameObject);
+                if(flat != null) DestroyImmediate(flat.gameObject);
                 flat = Instantiate(this.flatPrefab).transform;
+                NormalizeScale(flat);
+                flat.localEulerAngles = new Vector3(0, 180 + this.Rotation, 0);
                 bounds = GetBounds(flat);
-                
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
                 flat.localScale = new Vector3(scale,scale,scale);
                 flat.name = "FlatView";
@@ -99,8 +111,10 @@ public class Building : MonoBehaviour
                 flat.gameObject.SetActive(true);
                 break;
             case Type.MESH:
-                if (mesh != null) Destroy(mesh.gameObject);
+                if (mesh != null) DestroyImmediate(mesh.gameObject);
                 mesh = Instantiate(this.meshPrefab).transform;
+                NormalizeScale(mesh);
+                mesh.localEulerAngles = new Vector3(0, this.Rotation, 0);
                 bounds = GetBounds(mesh);
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
                 mesh.localScale = new Vector3(scale,scale,scale);
@@ -114,9 +128,14 @@ public class Building : MonoBehaviour
                 if (solid == null)
                 {
                     solid = new GameObject().transform;
+                    solid.name = "SolidView";
                     solid.parent = this.transform;
                     solid.localPosition = new Vector3(0, 0, 0);
+                    initializeMesh(solid);
+                    solid.GetComponent<MeshRenderer>().material = solidMaterial;
                 }
+                StartCoroutine("HeightSlide");
+                solid.gameObject.SetActive(true);
                 break;
             case Type.WIREFRAME:
                 this.drawWireframe = true;
@@ -129,15 +148,24 @@ public class Building : MonoBehaviour
     Vector3 GetBounds(Transform a)
     {
         Vector3 max = new Vector3(0, 0, 0);
-        Mesh parentRender = a.GetComponent<MeshFilter>().mesh;
+        MeshFilter parentRender = ((MeshFilter) a.GetComponent("MeshFilter"));
         if(parentRender != null)
         {
-            max = parentRender.bounds.size;
+            max = parentRender.mesh.bounds.size;
         }
         foreach(Transform t in a) {
-            max = Vector3.Max(max, GetBounds(a));
+            max = Vector3.Max(max, GetBounds(t));
         }
         return max;
+    }
+
+    void NormalizeScale(Transform a)
+    {
+        foreach(Transform t in a)
+        {
+            NormalizeScale(t);
+        }
+        a.localScale = new Vector3(1, 1, 1);
     }
 
     void DrawWireframe()
@@ -205,8 +233,17 @@ public class Building : MonoBehaviour
         return this.sprite.texture.GetPixels();
     }
 
-    internal void recolor(Color[] colors)
+    internal void Recolor(double maxVal, double[,] heatMap)
     {
+        Color[] colors = new Color[heatMap.Length];
+        for(int i = 0; i < heatMap.GetLength(0); i ++)
+        {
+            for(int j = 0; j < heatMap.GetLength(1); j ++)
+            {
+                colors[i + heatMap.GetLength(0) * j] =
+                    this.virtualCityView._colorGradient.Evaluate((float)(heatMap[i,j] / maxVal));
+            }
+        }
         this.sprite.texture.SetPixels(colors);
         this.sprite.texture.Apply();
     }
@@ -234,9 +271,9 @@ public class Building : MonoBehaviour
 
     void repositionTopSprite(float scale)
     {
-        Vector3 old = this.transform.GetChild(0).localPosition;
-        old.y = 1 + 5 / (scale * 1000);
-        this.transform.GetChild(0).localPosition = old;
+        Vector3 old = this.transform.Find("TopSprite").localPosition;
+        old.y = scale + spriteTopGap;
+        this.transform.Find("TopSprite").localPosition = old;
     }
 
     void initializeMesh(Transform container)
