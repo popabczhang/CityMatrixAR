@@ -9,6 +9,7 @@ public class Building : MonoBehaviour
     }
 
     [Header("View Info")]
+    public VirtualCityView virtualCityView;
     private Type _type;
     public Type ViewType {
         get { return _type; }
@@ -36,7 +37,7 @@ public class Building : MonoBehaviour
     private float minHeight = 0.1F;
 
     [Header("Wireframe Properties")]
-    public Material wireframeMaterial = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+    public Material wireframeMaterial = null;
     public Color wireframeColor = Color.white;
     public bool drawWireframe = false;
     private float wireframeWidth = 0.015f;
@@ -52,6 +53,10 @@ public class Building : MonoBehaviour
             new Rect(0, 0, sr.sprite.texture.width, sr.sprite.texture.height),
             new Vector2(0.5f, 0.5f), 7f);
         this.sprite = sr.sprite;
+        if(wireframeMaterial == null)
+        {
+            wireframeMaterial = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+        }
     }
 
     // Update is called once per frame
@@ -86,7 +91,7 @@ public class Building : MonoBehaviour
                 flat = Instantiate(this.flatPrefab).transform;
                 bounds = GetBounds(flat);
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                flat.localScale = new Vector3(scale, scale, scale);
+                flat.localScale = new Vector3(1, 1, 1);
                 flat.name = "FlatView";
                 flat.parent = this.transform;
                 flat.localPosition = new Vector3(0, 0, 0);
@@ -97,7 +102,7 @@ public class Building : MonoBehaviour
                 mesh = Instantiate(this.meshPrefab).transform;
                 bounds = GetBounds(mesh);
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                mesh.localScale = new Vector3(scale, scale, scale);
+                mesh.localScale = new Vector3(1, 1, 1);
                 mesh.name = "MeshView";
                 mesh.parent = this.transform;
                 mesh.localPosition = new Vector3(0, 0, 0);

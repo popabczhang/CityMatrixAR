@@ -39,6 +39,14 @@ public class VirtualCityModel : MonoBehaviour {
         return (BuildingModel[,]) this.city;
     }
 
+    internal void InitializeView(int i, int j, Building b)
+    {
+        if(i >= 0 && i < this.buildingsX && j >= 0 && j < this.buildingsY)
+        {
+            this.city[i, j].AddView(b);
+        }
+    }
+
     IEnumerator RunSolarSimulation()
     {
         float time = 0;

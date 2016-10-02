@@ -47,7 +47,7 @@ public class ColorizerCtrl : MonoBehaviour {
         yield return jsonPage;
         //Debug.Log(Time.time - t);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
-
+        BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
         for(int i = 0; i < data.grid.Length; i ++)
         {
             JSONBuilding a = data.grid[i];
