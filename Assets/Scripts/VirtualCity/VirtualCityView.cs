@@ -20,15 +20,7 @@ public class VirtualCityView : MonoBehaviour {
 
     public GameObject buildingPrefab;
 
-    private float _spacing;
-    public float Spacing
-    {
-        get { return _spacing; }
-        set {
-            _spacing = value;
-            this.RepositionAll();
-        }
-    }
+    public float Spacing;
 
     private Building[,] city;
 
@@ -36,21 +28,28 @@ public class VirtualCityView : MonoBehaviour {
 	void Start () {
         virtualCityModel = virtualCityModelObj.GetComponent<VirtualCityModel>();
         city = new Building[this.Width, this.Length];
-        for(int i = 0; i < this.Width; i ++)
+        StartCoroutine("Initialize");
+	}
+
+    IEnumerator Initialize()
+    {
+        yield return null;
+        for (int i = 0; i < this.Width; i++)
         {
-            for(int j = 0; j < this.Length; j ++) {
+            for (int j = 0; j < this.Length; j++)
+            {
                 Transform bObj = Instantiate(this.buildingPrefab).transform;
                 bObj.parent = this.transform;
                 bObj.localPosition = this.GetBuildingPos(i, j);
                 Building b = bObj.GetComponent<Building>();
                 b.virtualCityView = this;
-                
+
                 city[i, j] = b;
                 virtualCityModel.InitializeView(i, j, b);
                 b.ViewType = this.ViewType;
-            } 
+            }
         }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

@@ -90,11 +90,12 @@ public class Building : MonoBehaviour
                 if(flat != null) Destroy(flat.gameObject);
                 flat = Instantiate(this.flatPrefab).transform;
                 bounds = GetBounds(flat);
+                
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                flat.localScale = new Vector3(1, 1, 1);
+                flat.localScale = new Vector3(scale,scale,scale);
                 flat.name = "FlatView";
                 flat.parent = this.transform;
-                flat.localPosition = new Vector3(0, 0, 0);
+                flat.localPosition = new Vector3(0.5f, 0, 0.5f);
                 flat.gameObject.SetActive(true);
                 break;
             case Type.MESH:
@@ -102,10 +103,10 @@ public class Building : MonoBehaviour
                 mesh = Instantiate(this.meshPrefab).transform;
                 bounds = GetBounds(mesh);
                 scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                mesh.localScale = new Vector3(1, 1, 1);
+                mesh.localScale = new Vector3(scale,scale,scale);
                 mesh.name = "MeshView";
                 mesh.parent = this.transform;
-                mesh.localPosition = new Vector3(0, 0, 0);
+                mesh.localPosition = new Vector3(0.5f, 0, 0.5f);
                 mesh.gameObject.SetActive(true);
                 break;
             case Type.SOLID:
@@ -128,7 +129,7 @@ public class Building : MonoBehaviour
     Vector3 GetBounds(Transform a)
     {
         Vector3 max = new Vector3(0, 0, 0);
-        MeshRenderer parentRender = this.GetComponent<MeshRenderer>();
+        Mesh parentRender = a.GetComponent<MeshFilter>().mesh;
         if(parentRender != null)
         {
             max = parentRender.bounds.size;
