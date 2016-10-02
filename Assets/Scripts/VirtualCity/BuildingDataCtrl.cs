@@ -29,7 +29,6 @@ public class BuildingDataCtrl : MonoBehaviour
             model.Height = type.height;
             model.Width = type.width;
         }
-        
     }
 
     [System.Serializable]

@@ -3,20 +3,43 @@ using System.Collections;
 
 public class Building : MonoBehaviour
 {
-    public float slideFactor = (float)0.2;
+    public enum Type
+    {
+        FLAT, WIREFRAME, SOLID, MESH
+    }
 
-    internal BuildingModel data;
-    private MeshFilter mFilter;
-    private float topGap = 0.01F;
+    [Header("View Info")]
+    private Type _type;
+    public Type ViewType {
+        get { return _type; }
+        set { _type = value;
+            this.UpdateView();
+        }
+    }
+
+    [Header("View Meshes")]
+    public GameObject meshPrefab;
+    public GameObject flatPrefab;
+
+    [Header("Solid and Wireframe Properties")]
+    private float targetHeight;
+    public float Height
+    {
+        get { return targetHeight; }
+        set { this.targetHeight = value;
+            StartCoroutine("HeightSlide");
+        }
+    }
+    public float spriteTopGap = 0.01F;
+    public float heightSlideFactor = (float)0.2;
     private Sprite sprite;
     private float minHeight = 0.1F;
-    private float targetHeight;
 
+    [Header("Wireframe Properties")]
+    public Material wireframeMaterial = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
     public Color wireframeColor = Color.white;
     public bool drawWireframe = false;
     private float wireframeWidth = 0.015f;
-
-    Material wireframeMaterial;
     private LineRenderer[] wireframe = new LineRenderer[12];
 
     // Use this for initialization
@@ -29,14 +52,6 @@ public class Building : MonoBehaviour
             new Rect(0, 0, sr.sprite.texture.width, sr.sprite.texture.height),
             new Vector2(0.5f, 0.5f), 7f);
         this.sprite = sr.sprite;
-        this.mFilter = GetComponent<MeshFilter>();
-        if (this.drawWireframe)
-        {
-            this.wireframeMaterial = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-        }
-        else {
-            this.initializeMesh();
-        }
     }
 
     // Update is called once per frame
@@ -44,14 +59,79 @@ public class Building : MonoBehaviour
     {
         if (this.drawWireframe)
         {
-            this.GetComponent<MeshRenderer>().enabled = false;
             this.DrawWireframe();
         }
     }
 
-    void OnPreRender()
+    void UpdateView()
     {
+        Transform flat = this.transform.Find("FlatView");
+        if (flat != null) flat.gameObject.SetActive(false);
+        Transform mesh = this.transform.Find("MeshView");
+        if (mesh != null) mesh.gameObject.SetActive(false);
+        Transform solid = this.transform.Find("SolidView");
+        if (solid != null) solid.gameObject.SetActive(false);
+        Transform sprite = this.transform.Find("TopSprite");
+        sprite.gameObject.SetActive(false);
+        this.drawWireframe = false;
 
+        this.transform.localScale = new Vector3(1, 1, 1);
+
+        float scale;
+        Vector3 bounds;
+        switch(this._type)
+        {
+            case Type.FLAT:
+                if(flat != null) Destroy(flat.gameObject);
+                flat = Instantiate(this.flatPrefab).transform;
+                bounds = GetBounds(flat);
+                scale = 1f / Mathf.Max(bounds.x, bounds.z);
+                flat.localScale = new Vector3(scale, scale, scale);
+                flat.name = "FlatView";
+                flat.parent = this.transform;
+                flat.localPosition = new Vector3(0, 0, 0);
+                flat.gameObject.SetActive(true);
+                break;
+            case Type.MESH:
+                if (mesh != null) Destroy(mesh.gameObject);
+                mesh = Instantiate(this.meshPrefab).transform;
+                bounds = GetBounds(mesh);
+                scale = 1f / Mathf.Max(bounds.x, bounds.z);
+                mesh.localScale = new Vector3(scale, scale, scale);
+                mesh.name = "MeshView";
+                mesh.parent = this.transform;
+                mesh.localPosition = new Vector3(0, 0, 0);
+                mesh.gameObject.SetActive(true);
+                break;
+            case Type.SOLID:
+                sprite.gameObject.SetActive(true);
+                if (solid == null)
+                {
+                    solid = new GameObject().transform;
+                    solid.parent = this.transform;
+                    solid.localPosition = new Vector3(0, 0, 0);
+                }
+                break;
+            case Type.WIREFRAME:
+                this.drawWireframe = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    Vector3 GetBounds(Transform a)
+    {
+        Vector3 max = new Vector3(0, 0, 0);
+        MeshRenderer parentRender = this.GetComponent<MeshRenderer>();
+        if(parentRender != null)
+        {
+            max = parentRender.bounds.size;
+        }
+        foreach(Transform t in a) {
+            max = Vector3.Max(max, GetBounds(a));
+        }
+        return max;
     }
 
     void DrawWireframe()
@@ -125,23 +205,22 @@ public class Building : MonoBehaviour
         this.sprite.texture.Apply();
     }
 
-    internal void changeHeight(float h)
-    {
-        this.targetHeight = h < this.minHeight ? this.minHeight : h;
-        StartCoroutine("HeightSlide");
-    }
-
     IEnumerator HeightSlide()
     {
-        Vector3 scale = this.transform.localScale;
+        Transform solid = this.transform.Find("SolidView");
+        if(solid == null)
+        {
+            yield break;
+        }
+        Vector3 scale = solid.localScale;
         while(scale.y != this.targetHeight)
         {
-            scale.y += (this.targetHeight - scale.y) * this.slideFactor;
+            scale.y += (this.targetHeight - scale.y) * this.heightSlideFactor;
             if(Mathf.Abs(this.targetHeight - scale.y) < 0.01)
             {
                 scale.y = this.targetHeight;
             }
-            this.transform.localScale = scale;
+            solid.transform.localScale = scale;
             this.repositionTopSprite(scale.y);
             yield return null;
         }
@@ -154,9 +233,10 @@ public class Building : MonoBehaviour
         this.transform.GetChild(0).localPosition = old;
     }
 
-    void initializeMesh()
+    void initializeMesh(Transform container)
     {
-        mFilter.mesh = new Mesh();
+        container.gameObject.AddComponent<MeshRenderer>();
+        MeshFilter mFilter = container.gameObject.AddComponent<MeshFilter>();
         Vector3[] newVerts = new Vector3[] {
             new Vector3(0, 0, 0),
             new Vector3(0, 1, 0),
