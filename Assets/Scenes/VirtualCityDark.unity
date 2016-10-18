@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.3916775, g: 0.43534702, b: 0.50396615, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -704,6 +704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4714723eb9efd4ea0dec55b072dbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  medDensity: 10
+  highDensity: 20
   residentialLowRise:
   - {fileID: 100000, guid: 1f54533e710314182a14a2f655821884, type: 3}
   - {fileID: 100000, guid: 9126dd454c68e4521b6371e5ca89e3bf, type: 3}
@@ -759,7 +761,7 @@ MonoBehaviour:
     flatView: {fileID: 100000, guid: 83773b42ed04e4441bc0ac26e0b6dc26, type: 3}
     residential: 0
   - ID: 6
-    height: 70
+    height: 0.1
     width: 30
     flatView: {fileID: 100000, guid: 0625b110df0861842903772253eb455a, type: 3}
     residential: 0
