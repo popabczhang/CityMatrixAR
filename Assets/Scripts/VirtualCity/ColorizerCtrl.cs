@@ -35,6 +35,7 @@ public class ColorizerCtrl : MonoBehaviour {
             b.Correct(15, 15);
             city[b.x, b.y].JSONUpdate(b);
         }
+        //BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
 
         this.oldData = data;
         StartCoroutine("CheckForUpdates");
@@ -47,20 +48,13 @@ public class ColorizerCtrl : MonoBehaviour {
         yield return jsonPage;
         //Debug.Log(Time.time - t);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
-        BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
         for(int i = 0; i < data.grid.Length; i ++)
         {
             JSONBuilding a = data.grid[i];
             a.Correct(15,15);
-            if(a.Changes(cityModel.GetCity()[a.x,a.y]))
-            {
-                //Debug.Log(a.x);
-                //Debug.Log(a.y);
-                JSONBuilding b = data.grid[i];
-                city[b.x, b.y].JSONUpdate(b);
-            }
+            city[a.x, a.y].JSONUpdate(a);
         }
-        //Debug.Log(Time.time - t);
+        BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
         StartCoroutine("CheckForUpdates");
     }
 }

@@ -8,6 +8,9 @@ public class BuildingDataCtrl : MonoBehaviour
 {
     public static BuildingDataCtrl instance = null;
 
+    public int medDensity;
+    public int highDensity;
+
     public GameObject[] residentialLowRise;
     public GameObject[] residentialMidRise;
     public GameObject[] residentialHighRise;
@@ -20,9 +23,9 @@ public class BuildingDataCtrl : MonoBehaviour
 
     public IdDataStruct[] buildingTypes;
 
-    internal List<int> density = new List<int>(new int[] { 1, 1, 1, 1, 1, 1 });
+    internal List<int> density = new List<int>();
 
-    internal List<BuildingModel> models = new List<BuildingModel>();
+    internal Dictionary<int, List<BuildingModel>> models = new Dictionary<int,List<BuildingModel>>();
 
     void Awake()
     {
@@ -35,8 +38,22 @@ public class BuildingDataCtrl : MonoBehaviour
         }
     }
 
-    internal void UpdateBuildingModel(BuildingModel model, int id)
+    void AddModel(BuildingModel b)
     {
+        if (!this.models.ContainsKey(b.Id))
+        {
+            this.models.Add(b.Id, new List<BuildingModel>());
+        }
+        foreach(List<BuildingModel> list in this.models.Values)
+        {
+            list.Remove(b);
+        }
+        this.models[b.Id].Add(b);
+    }
+
+    internal void UpdateBuildingModel(BuildingModel model)
+    {
+        int id = model.Id;
         IdDataStruct type = System.Array.Find(buildingTypes, a => a.ID == id);
         if (type != null)
         {
@@ -46,6 +63,7 @@ public class BuildingDataCtrl : MonoBehaviour
             model.FlatView = id == -1 ? (r > 0.25f ? park[Random.Range(0, park.Length - 1)] :
                     flat[Random.Range(0, flat.Length - 1)]) :
                     type.flatView;
+            int dens = id != -1 && this.density.Count > id ? this.density[id] : -1;
             if (id == -1)
             {
                 model.MeshView = r > 0.25f ? park[Random.Range(0, park.Length - 1)] : 
@@ -53,12 +71,12 @@ public class BuildingDataCtrl : MonoBehaviour
             } else if(id == 6)
             {
                 model.MeshView = road[Random.Range(0, road.Length - 1)];
-            } else if(density[id] <= 6)
+            } else if(dens <= this.medDensity)
             {
                 model.MeshView = type.residential ? 
                     residentialLowRise[Random.Range(0, residentialLowRise.Length - 1)] :
                     officeLowRise[Random.Range(0, officeLowRise.Length - 1)];
-            } else if (density[id] <= 15)
+            } else if (dens <= this.highDensity)
             {
                 model.MeshView = type.residential ?
                     residentialMidRise[Random.Range(0, residentialMidRise.Length - 1)] :
@@ -70,13 +88,32 @@ public class BuildingDataCtrl : MonoBehaviour
                     officeHighRise[Random.Range(0, officeHighRise.Length - 1)];
             }
         }
+        this.AddModel(model);
     }
 
     internal void UpdateDensities(int[] densities) {
-        this.density = new List<int>(); 
-        for(int i = 0; i < densities.Length; i ++ )
+        for(int i = 0; i < this.density.Count(); i ++ )
+        {
+            if(this.density[i] != densities[i])
+            {
+                this.density[i] = densities[i];
+                List<BuildingModel> list = new List<BuildingModel>(this.models[i]);
+                if (list == null) continue;
+                foreach (BuildingModel b in list)
+                {
+                    this.UpdateBuildingModel(b);
+                }
+            }
+        }
+        for(int i = this.density.Count(); i < densities.Length; i ++)
         {
             this.density.Add(densities[i]);
+            List<BuildingModel> list = new List<BuildingModel>(this.models[i]);
+            if (list == null) continue;
+            foreach (BuildingModel b in list)
+            {
+                this.UpdateBuildingModel(b);
+            }
         }
     }
 
@@ -100,8 +137,10 @@ public class BuildingModel {
             return _id; }
         set
         {
-            BuildingDataCtrl.instance.UpdateBuildingModel(this, value);
-            _id = value; }
+            bool a = value == _id;
+            _id = value;
+            if(!a) BuildingDataCtrl.instance.UpdateBuildingModel(this);
+        }
     }
     public int x;
     public int y;
@@ -130,10 +169,15 @@ public class BuildingModel {
     public int Rotation
     {
         get { return _rotation; }
-        set { _rotation = value;
-            foreach (Building b in views)
+        set {
+            bool a = value == _rotation;
+            _rotation = value;
+            if (!a)
             {
-                b.Rotation = value;
+                foreach (Building b in views)
+                {
+                    b.Rotation = value;
+                }
             }
         }
     }
@@ -147,10 +191,15 @@ public class BuildingModel {
     public double[,] HeatMap
     {
         get { return _heatMap; }
-        set { _heatMap = value;
-            foreach(Building b in views)
+        set {
+            bool a = value == _heatMap;
+            _heatMap = value;
+            if (!a)
             {
-                b.Recolor(_colorRef, _heatMap);
+                foreach (Building b in views)
+                {
+                    b.Recolor(_colorRef, _heatMap);
+                }
             }
         }
     }
@@ -158,10 +207,15 @@ public class BuildingModel {
     public double ColorRef
     {
         get { return _colorRef; }
-        set { _colorRef = value;
-            foreach (Building b in views)
+        set {
+            bool a = value == _colorRef;
+            _colorRef = value;
+            if (!a)
             {
-                b.Recolor(_colorRef, _heatMap);
+                foreach (Building b in views)
+                {
+                    b.Recolor(_colorRef, _heatMap);
+                }
             }
         }
     }
@@ -207,8 +261,7 @@ public class BuildingModel {
         this._width = 30;
         this._magnitude = 0;
         this._heatMap = new double[7, 7];
-        BuildingDataCtrl.instance.models.Add(this);
-        BuildingDataCtrl.instance.UpdateBuildingModel(this, -1);
+        BuildingDataCtrl.instance.UpdateBuildingModel(this);
     }
 
     public void AddView(Building b)

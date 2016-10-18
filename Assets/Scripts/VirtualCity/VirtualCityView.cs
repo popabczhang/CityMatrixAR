@@ -56,6 +56,7 @@ public class VirtualCityView : MonoBehaviour {
     IEnumerator Initialize()
     {
         yield return null;
+
         for (int i = 0; i < this.Width; i++)
         {
             for (int j = 0; j < this.Length; j++)
