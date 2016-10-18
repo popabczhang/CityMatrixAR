@@ -786,6 +786,7 @@ GameObject:
   - 20: {fileID: 1199370123}
   - 124: {fileID: 1199370122}
   - 92: {fileID: 1199370121}
+  - 114: {fileID: 1199370120}
   m_Layer: 0
   m_Name: TableCamera
   m_TagString: Untagged
@@ -793,6 +794,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1199370120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1199370119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e658b61ff60904b9075144d43692bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!92 &1199370121
 Behaviour:
   m_ObjectHideFlags: 0
