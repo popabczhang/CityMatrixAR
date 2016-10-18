@@ -42,15 +42,16 @@ public class VirtualCityView : MonoBehaviour {
     void OnDrawGizmos()
     {
         Vector3 pos = this.transform.position;
+        Vector3 scale = this.transform.localScale;
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(pos, pos + new Vector3((1 + this.Spacing) * this.Width, 0, 0));
-        Gizmos.DrawLine(pos, pos + new Vector3(0, 0, (1 + this.Spacing) * this.Length));
+        Gizmos.DrawLine(pos, pos + Vector3.Scale(scale, new Vector3((1 + this.Spacing) * this.Width, 0, 0)));
+        Gizmos.DrawLine(pos, pos + Vector3.Scale(scale, new Vector3(0, 0, (1 + this.Spacing) * this.Length)));
         Gizmos.DrawLine(
-            pos + new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length), 
-            pos + new Vector3((1 + this.Spacing) * this.Width, 0, 0));
+            pos + Vector3.Scale(scale, new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length)), 
+            pos + Vector3.Scale(scale, new Vector3((1 + this.Spacing) * this.Width, 0, 0)));
         Gizmos.DrawLine(
-            pos + new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length), 
-            pos + new Vector3(0, 0, (1 + this.Spacing) * this.Length));
+            pos + Vector3.Scale(scale, new Vector3((1 + this.Spacing) * this.Width, 0, (1 + this.Spacing) * this.Length)), 
+            pos + Vector3.Scale(scale, new Vector3(0, 0, (1 + this.Spacing) * this.Length)));
     }
 
     IEnumerator Initialize()

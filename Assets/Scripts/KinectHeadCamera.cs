@@ -74,7 +74,6 @@ public class KinectHeadCamera : MonoBehaviour {
                 {
                     this.kinectHeadPos = this.CSP2Vector3(
                         b.Joints[JointType.Head].Position);
-                    Debug.Log(this.kinectHeadPos);
                 }
             }
         }

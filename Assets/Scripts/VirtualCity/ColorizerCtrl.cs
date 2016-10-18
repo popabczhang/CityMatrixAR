@@ -44,8 +44,15 @@ public class ColorizerCtrl : MonoBehaviour {
     IEnumerator CheckForUpdates()
     {
         WWW jsonPage = new WWW(this.JsonURL);
-        float t = Time.time;
         yield return jsonPage;
+        Debug.Log(jsonPage.error);
+        while (jsonPage.error != null)
+        {
+            Debug.Log(jsonPage.error);
+            jsonPage = new WWW(this.JsonURL);
+            float t = Time.time;
+            yield return jsonPage;
+        }
         //Debug.Log(Time.time - t);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
         for(int i = 0; i < data.grid.Length; i ++)
