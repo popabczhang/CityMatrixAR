@@ -92,56 +92,61 @@ public class Building : MonoBehaviour
         this.drawWireframe = false;
 
         this.transform.localScale = new Vector3(1, 1, 1);
-
-        float scale;
-        Vector3 bounds;
-        switch(this._type)
+        try
         {
-            case Type.FLAT:
-                if(flat != null) DestroyImmediate(flat.gameObject);
-                flat = Instantiate(this.flatPrefab).transform;
-                NormalizeScale(flat);
-                flat.localEulerAngles = new Vector3(0, 180 + this.Rotation, 0);
-                bounds = GetBounds(flat);
-                scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                flat.localScale = new Vector3(scale,scale,scale);
-                flat.name = "FlatView";
-                flat.parent = this.transform;
-                flat.localPosition = new Vector3(0.5f, 0, 0.5f);
-                flat.gameObject.SetActive(true);
-                break;
-            case Type.MESH:
-                if (mesh != null) DestroyImmediate(mesh.gameObject);
-                mesh = Instantiate(this.meshPrefab).transform;
-                NormalizeScale(mesh);
-                mesh.localEulerAngles = new Vector3(0, this.Rotation, 0);
-                bounds = GetBounds(mesh);
-                scale = 1f / Mathf.Max(bounds.x, bounds.z);
-                mesh.localScale = new Vector3(scale,scale,scale);
-                mesh.name = "MeshView";
-                mesh.parent = this.transform;
-                mesh.localPosition = new Vector3(0.5f, 0, 0.5f);
-                mesh.gameObject.SetActive(true);
-                break;
-            case Type.SOLID:
-                sprite.gameObject.SetActive(true);
-                if (solid == null)
-                {
-                    solid = new GameObject().transform;
-                    solid.name = "SolidView";
-                    solid.parent = this.transform;
-                    solid.localPosition = new Vector3(0, 0, 0);
-                    initializeMesh(solid);
-                    solid.GetComponent<MeshRenderer>().material = solidMaterial;
-                }
-                StartCoroutine("HeightSlide");
-                solid.gameObject.SetActive(true);
-                break;
-            case Type.WIREFRAME:
-                this.drawWireframe = true;
-                break;
-            default:
-                break;
+            float scale;
+            Vector3 bounds;
+            switch (this._type)
+            {
+                case Type.FLAT:
+                    if (flat != null) DestroyImmediate(flat.gameObject);
+                    flat = Instantiate(this.flatPrefab).transform;
+                    NormalizeScale(flat);
+                    flat.localEulerAngles = new Vector3(0, 180 + this.Rotation, 0);
+                    bounds = GetBounds(flat);
+                    scale = 1f / Mathf.Max(bounds.x, bounds.z);
+                    flat.localScale = new Vector3(scale, scale, scale);
+                    flat.name = "FlatView";
+                    flat.parent = this.transform;
+                    flat.localPosition = new Vector3(0.5f, 0, 0.5f);
+                    flat.gameObject.SetActive(true);
+                    break;
+                case Type.MESH:
+                    if (mesh != null) DestroyImmediate(mesh.gameObject);
+                    mesh = Instantiate(this.meshPrefab).transform;
+                    NormalizeScale(mesh);
+                    mesh.localEulerAngles = new Vector3(0, this.Rotation, 0);
+                    bounds = GetBounds(mesh);
+                    scale = 1f / Mathf.Max(bounds.x, bounds.z);
+                    mesh.localScale = new Vector3(scale, scale, scale);
+                    mesh.name = "MeshView";
+                    mesh.parent = this.transform;
+                    mesh.localPosition = new Vector3(0.5f, 0, 0.5f);
+                    mesh.gameObject.SetActive(true);
+                    break;
+                case Type.SOLID:
+                    sprite.gameObject.SetActive(true);
+                    if (solid == null)
+                    {
+                        solid = new GameObject().transform;
+                        solid.name = "SolidView";
+                        solid.parent = this.transform;
+                        solid.localPosition = new Vector3(0, 0, 0);
+                        initializeMesh(solid);
+                        solid.GetComponent<MeshRenderer>().material = solidMaterial;
+                    }
+                    StartCoroutine("HeightSlide");
+                    solid.gameObject.SetActive(true);
+                    break;
+                case Type.WIREFRAME:
+                    this.drawWireframe = true;
+                    break;
+                default:
+                    break;
+            }
+        } catch
+        {
+
         }
     }
 

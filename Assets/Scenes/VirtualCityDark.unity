@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3916775, g: 0.43534702, b: 0.50396615, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 295494682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 4.5, z: 0}
+  m_LocalPosition: {x: 9, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -345,8 +345,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 411028032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 18}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1777900868}
@@ -704,8 +704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4714723eb9efd4ea0dec55b072dbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medDensity: 10
-  highDensity: 20
+  medDensity: 15
+  highDensity: 18
   residentialLowRise:
   - {fileID: 100000, guid: 1f54533e710314182a14a2f655821884, type: 3}
   - {fileID: 100000, guid: 9126dd454c68e4521b6371e5ca89e3bf, type: 3}
@@ -805,6 +805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e658b61ff60904b9075144d43692bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondDisplay: 0
 --- !u!92 &1199370121
 Behaviour:
   m_ObjectHideFlags: 0
@@ -971,7 +972,7 @@ MonoBehaviour:
   frameBottomLeft: {fileID: 393019618}
   frameTopRight: {fileID: 166529809}
   frameBottomRight: {fileID: 71675444}
-  monitorDimensions: {x: 16, y: 9}
+  monitorDimensions: {x: 18, y: 10.125}
   focusPoint: {fileID: 295494683}
   drawNearCone: 0
   drawFrustum: 0
@@ -988,7 +989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBodies: 12
   kinect: {fileID: 1014007658}
-  spaceUnitsPerMeter: 32.25
+  spaceUnitsPerMeter: 100
   kinectOffset: {x: 0, y: 0, z: 0}
   useUdp: 0
   udpPort: 1234
