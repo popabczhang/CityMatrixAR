@@ -27,6 +27,7 @@ public class VirtualCityModel : MonoBehaviour {
     }
 
     float tempt = 0;
+    int i = 0;
 	// Update is called once per frame
 	void Update () {
         tempt += Time.deltaTime;
@@ -35,6 +36,10 @@ public class VirtualCityModel : MonoBehaviour {
             StartCoroutine("RunSolarSimulation");
             tempt = 0;
         }
+
+        //city[6, 9].StreetView();
+        //city[6, 9].Rotation = ((i / 240) % 4) * 90;
+        //i++;
     }
 
     internal BuildingModel[,] GetCity()

@@ -123,6 +123,10 @@ public class Building : MonoBehaviour
                     mesh.parent = this.transform;
                     mesh.localPosition = new Vector3(0.5f, 0, 0.5f);
                     mesh.gameObject.SetActive(true);
+                    if(this.transform.FindChild("StreetCamera") != null)
+                    {
+                        this.transform.FindChild("StreetCamera").localEulerAngles = new Vector3(5, this.Rotation, 0);
+                    }
                     break;
                 case Type.SOLID:
                     sprite.gameObject.SetActive(true);
@@ -148,6 +152,26 @@ public class Building : MonoBehaviour
         {
 
         }
+    }
+
+    internal void StreetView()
+    {
+        if (this._type != Type.MESH) return;
+        Transform streetCam = GameObject.Find("StreetCamera").transform;
+        streetCam.parent = this.transform;
+        streetCam.localPosition = new Vector3(0.5f, 0.2f, 0.5f);
+        streetCam.localEulerAngles = new Vector3(5, this.Rotation, 0);
+        streetCam.GetComponent<Camera>().enabled = true;
+        Transform mainCam = GameObject.Find("MirrorCamera").transform;
+        mainCam.GetComponent<Camera>().enabled = false;
+    }
+
+    internal void ReleaseStreetView()
+    {
+        Transform mainCam = GameObject.Find("MirrorCamera").transform;
+        mainCam.GetComponent<Camera>().enabled = true;
+        Transform streetCam = GameObject.Find("StreetCamera").transform;
+        streetCam.GetComponent<Camera>().enabled = false;
     }
 
     Vector3 GetBounds(Transform a)

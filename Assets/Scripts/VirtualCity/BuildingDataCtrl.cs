@@ -11,6 +11,8 @@ public class BuildingDataCtrl : MonoBehaviour
     public int medDensity;
     public int highDensity;
 
+    public int streetViewId;
+
     public GameObject[] residentialLowRise;
     public GameObject[] residentialMidRise;
     public GameObject[] residentialHighRise;
@@ -64,13 +66,15 @@ public class BuildingDataCtrl : MonoBehaviour
                     flat[Random.Range(0, flat.Length - 1)]) :
                     type.flatView;
             int dens = id != -1 && this.density.Count > id ? this.density[id] : -1;
+            if (id != this.streetViewId) model.ReleaseStreetView();
             if (id == -1)
             {
                 model.MeshView = r > 0.25f ? park[Random.Range(0, park.Length - 1)] : 
                     flat[Random.Range(0, flat.Length - 1)];
-            } else if(id == 6)
+            } else if(id == 6 || id == this.streetViewId)
             {
                 model.MeshView = road[Random.Range(0, road.Length - 1)];
+                model.StreetView();
             } else if(dens <= this.medDensity)
             {
                 model.MeshView = type.residential ? 
@@ -272,7 +276,22 @@ public class BuildingModel {
         b.meshPrefab = this.MeshView;
         //b.Recolor(_colorRef, _heatMap);
         //b.Rotation = this.Rotation;
+    }
 
+    public void StreetView()
+    {
+        foreach(Building b in this.views)
+        {
+            b.StreetView();
+        }
+    }
+
+    public void ReleaseStreetView()
+    {
+        foreach (Building b in this.views)
+        {
+            b.ReleaseStreetView();
+        }
     }
 
     public float GetVirtualHeight()
