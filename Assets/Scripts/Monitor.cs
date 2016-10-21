@@ -1,18 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MonitorDebug : MonoBehaviour {
+public class Monitor : MonoBehaviour {
 
     public bool debug = false;
     public Color kinectColor = Color.green;
     public Color focusColor = Color.red;
     public Color frameColor = Color.blue;
     public float radius = 0.1f;
+    public Vector3 otherPosition;
+    Vector3 mainPosition;
 
 	// Use this for initialization
 	void Start () {
-	
+        this.mainPosition = this.transform.position;
 	}
+
+    void Update()
+    {
+        if(Input.GetButtonDown("SwitchView"))
+        {
+            if(this.transform.position == this.mainPosition)
+            {
+                this.transform.position = this.otherPosition;
+            } else
+            {
+                this.transform.position = this.mainPosition;
+            }
+        }
+    }
 	
 	// Update is called once per frame
 	void OnDrawGizmos () {
