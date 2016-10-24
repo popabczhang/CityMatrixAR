@@ -13,7 +13,8 @@ public class KinectHeadCamera : MonoBehaviour {
     public int maxBodies = 12;
     public Transform kinect;
     public float spaceUnitsPerMeter;
-    public Vector3 kinectOffset;
+    public Vector3 offset;
+    public Vector3 kinectAngle;
     public bool useUdp = false;
     public int udpPort = 1234;
     public int udpWait = 10;
@@ -79,6 +80,7 @@ public class KinectHeadCamera : MonoBehaviour {
         }
         Vector3 pos = this.GetVirtualPosition(this.kinectHeadPos);
         pos.z = Math.Min(1, pos.z);
+        Debug.Log(this.kinectHeadPos);
         this.transform.position = pos;
     }
 
@@ -150,9 +152,10 @@ public class KinectHeadCamera : MonoBehaviour {
 
     Vector3 GetVirtualPosition(Vector3 a)
     {
-        a = (a + this.kinectOffset) * this.spaceUnitsPerMeter;
+        a = a * this.spaceUnitsPerMeter;
+        a = Quaternion.Euler(this.kinectAngle) * a;
         a.z = a.z * -1;
-        a = a + this.kinect.position;
+        a = a + this.kinect.position + this.offset;
         return a;
     }
 

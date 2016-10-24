@@ -48,7 +48,6 @@ public class ColorizerCtrl : MonoBehaviour {
         Debug.Log(jsonPage.error);
         while (jsonPage.error != null)
         {
-            Debug.Log(jsonPage.error);
             jsonPage = new WWW(this.JsonURL);
             float t = Time.time;
             yield return jsonPage;
