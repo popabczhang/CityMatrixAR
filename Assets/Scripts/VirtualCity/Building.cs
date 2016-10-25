@@ -178,7 +178,7 @@ public class Building : MonoBehaviour
             mainCam.GetComponent<Camera>().enabled = true;
             Transform streetCam = GameObject.Find("StreetCamera").transform;
             streetCam.GetComponent<Camera>().enabled = false;
-            this.streetViewMode = true;
+            this.streetViewMode = false;
         }
     }
 

@@ -308,7 +308,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: -40.878002, y: 136.75, z: 94.745}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
 --- !u!1 &166529808
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,13 +358,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 260438019}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 20, z: -30}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.5166564, y: 12.330541, z: -27.619047}
+  m_LocalScale: {x: 0.42918456, y: 0.42918456, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 2125339982}
+  m_RootOrder: 4
 --- !u!1 &295494682
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,9 +719,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1058,8 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4714723eb9efd4ea0dec55b072dbf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medDensity: 15
-  highDensity: 18
+  medDensity: 7
+  highDensity: 14
   streetViewId: 7
   residentialLowRise:
   - {fileID: 100000, guid: 1f54533e710314182a14a2f655821884, type: 3}
@@ -1672,6 +1672,7 @@ Transform:
   - {fileID: 295494683}
   - {fileID: 118682333}
   - {fileID: 1777900868}
+  - {fileID: 260438020}
   m_Father: {fileID: 0}
   m_RootOrder: 5
 --- !u!114 &2125339983
