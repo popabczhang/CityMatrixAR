@@ -26,15 +26,12 @@ public class VirtualCityModel : MonoBehaviour {
         }
     }
 
-    float tempt = 0;
     int i = 0;
 	// Update is called once per frame
 	void Update () {
-        tempt += Time.deltaTime;
-        if(Input.GetButtonDown("RunSimulation") && tempt > 3)
+        if(Input.GetButtonDown("RunSimulation"))
         {
             StartCoroutine("RunSolarSimulation");
-            tempt = 0;
         }
 
         //city[6, 9].StreetView();

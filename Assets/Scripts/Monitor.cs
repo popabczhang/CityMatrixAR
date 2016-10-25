@@ -14,6 +14,7 @@ public class Monitor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.mainPosition = this.transform.position;
+        this.otherPosition = this.mainPosition + this.otherPosition;
 	}
 
     void Update()

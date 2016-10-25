@@ -54,6 +54,8 @@ public class Building : MonoBehaviour
     private Sprite sprite;
     private float minHeight = 0.1F;
 
+    private bool streetViewMode = false;
+
     // Use this for initialization
     void Start()
     {
@@ -157,21 +159,27 @@ public class Building : MonoBehaviour
     internal void StreetView()
     {
         if (this._type != Type.MESH) return;
-        Transform streetCam = GameObject.Find("StreetCamera").transform;
-        streetCam.parent = this.transform;
-        streetCam.localPosition = new Vector3(0.5f, 0.2f, 0.5f);
-        streetCam.localEulerAngles = new Vector3(5, this.Rotation, 0);
-        streetCam.GetComponent<Camera>().enabled = true;
+        Camera streetCam = GameObject.Find("StreetCamera").GetComponent<Camera>();
+        Transform streetCamPos = streetCam.transform;
+        streetCamPos.parent = this.transform;
+        streetCamPos.localPosition = new Vector3(0.5f, 0.2f, 0.5f);
+        streetCamPos.localEulerAngles = new Vector3(5, this.Rotation, 0);
+        streetCamPos.GetComponent<Camera>().enabled = true;
         Transform mainCam = GameObject.Find("MirrorCamera").transform;
         mainCam.GetComponent<Camera>().enabled = false;
+        this.streetViewMode = true;
     }
 
     internal void ReleaseStreetView()
     {
-        Transform mainCam = GameObject.Find("MirrorCamera").transform;
-        mainCam.GetComponent<Camera>().enabled = true;
-        Transform streetCam = GameObject.Find("StreetCamera").transform;
-        streetCam.GetComponent<Camera>().enabled = false;
+        if (this.streetViewMode)
+        {
+            Transform mainCam = GameObject.Find("MirrorCamera").transform;
+            mainCam.GetComponent<Camera>().enabled = true;
+            Transform streetCam = GameObject.Find("StreetCamera").transform;
+            streetCam.GetComponent<Camera>().enabled = false;
+            this.streetViewMode = true;
+        }
     }
 
     Vector3 GetBounds(Transform a)

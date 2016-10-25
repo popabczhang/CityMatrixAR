@@ -12,6 +12,7 @@ public class KinectHeadCamera : MonoBehaviour {
 
     public int maxBodies = 12;
     public Transform kinect;
+    public Transform kinectHeadTarget;
     public float spaceUnitsPerMeter;
     public Vector3 offset;
     public Vector3 kinectAngle;
@@ -69,18 +70,26 @@ public class KinectHeadCamera : MonoBehaviour {
                     frame = null;
                 }
             }
+            float best = -1f;
             foreach (Body b in this.bodies)
             {
                 if (b.IsTracked)
                 {
-                    this.kinectHeadPos = this.CSP2Vector3(
-                        b.Joints[JointType.Head].Position);
+                    Vector3 headPos = this.GetVirtualPosition(
+                        this.CSP2Vector3(b.Joints[JointType.Head].Position));
+                    if (best == -1 || (Vector3.Distance(headPos, this.kinectHeadTarget.position)) < best) {
+                        this.kinectHeadPos = headPos;
+                        best = Vector3.Distance(headPos, this.kinectHeadTarget.position);
+                    }
                 }
             }
+            if (best == -1)
+            {
+                this.kinectHeadPos = this.kinectHeadTarget.position;
+            }
         }
-        Vector3 pos = this.GetVirtualPosition(this.kinectHeadPos);
+        Vector3 pos = this.kinectHeadPos;
         pos.z = Math.Min(1, pos.z);
-        Debug.Log(this.kinectHeadPos);
         this.transform.position = pos;
     }
 

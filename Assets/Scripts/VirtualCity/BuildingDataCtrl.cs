@@ -74,7 +74,6 @@ public class BuildingDataCtrl : MonoBehaviour
             } else if(id == 6 || id == this.streetViewId)
             {
                 model.MeshView = road[Random.Range(0, road.Length - 1)];
-                model.StreetView();
             } else if(dens <= this.medDensity)
             {
                 model.MeshView = type.residential ? 
@@ -90,6 +89,10 @@ public class BuildingDataCtrl : MonoBehaviour
                 model.MeshView = type.residential ?
                     residentialHighRise[Random.Range(0, residentialHighRise.Length - 1)] :
                     officeHighRise[Random.Range(0, officeHighRise.Length - 1)];
+            }
+            if(id == this.streetViewId)
+            {
+                model.StreetView();
             }
         }
         this.AddModel(model);
