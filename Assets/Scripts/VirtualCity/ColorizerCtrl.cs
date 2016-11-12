@@ -12,25 +12,73 @@ public class ColorizerCtrl : MonoBehaviour {
     private JSONCityMatrix oldData;
     private BuildingModel[,] city;
 
+    //private StreamReader sReader;
+    //private string readJson;
+
+    private static string udpString;  //  A new Static variable to hold our score.
+
+
     // Use this for initialization
     void Start () {
         StartCoroutine("Initialize");
         city = cityModel.GetCity();
+        //sReader = new StreamReader("C:\\Users\\RYAN\\Dropbox (MIT)\01_Work\\MAS\\06_Fall 2016\\CityMatrix\\01_Software\\Processing\\Colortizer\\all.json");
+        //sReader = new StreamReader("C:/Users/RYAN/Dropbox (MIT)/01_Work/MAS/06_Fall 2016/CityMatrix/01_Software/Processing/Colortizer/all.json");
+
+        udpString = UDPReceive.udpString;  //  Update our score continuously.
+        //Debug.Log(udpString);
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
+
+
+        foreach (JSONBuilding b in data.grid)
+        {
+            b.Correct(15, 15);
+            city[b.x, b.y].JSONUpdate(b);
+        }
+        //BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
+
+        this.oldData = data;
+
     }
 
     // Update is called once per frame
     void Update () {
-	}
+        udpString = UDPReceive.udpString;  //  Update our score continuously.
+        //Debug.Log(udpString);
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
+
+        for (int i = 0; i < data.grid.Length; i++)
+        {
+            JSONBuilding a = data.grid[i];
+            a.Correct(15, 15);
+            city[a.x, a.y].JSONUpdate(a);
+        }
+        BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
+    }
+
+    /*
     IEnumerator Initialize()
     {
+        //yield return null;
+        //WWW jsonPage = new WWW(this.JsonURL);
+        //yield return jsonPage;
+        //JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
+
+        // read file, acturally reading and parsing works but the file cannot be open with 2 programs
+        //readJson = sReader.ReadToEnd();
+        //JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(readJson); 
+
+        // from UDP
         yield return null;
-        WWW jsonPage = new WWW(this.JsonURL);
-        yield return jsonPage;
-        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
+        //WWW jsonPage = new WWW(this.JsonURL);
+        yield return udpString;
+        udpString = UDPReceive.udpString;  //  Update our score continuously.
+        Debug.Log(udpString);
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
 
-        foreach(JSONBuilding b in data.grid)
+        foreach (JSONBuilding b in data.grid)
         {
             b.Correct(15, 15);
             city[b.x, b.y].JSONUpdate(b);
@@ -43,18 +91,30 @@ public class ColorizerCtrl : MonoBehaviour {
 
     IEnumerator CheckForUpdates()
     {
-        WWW jsonPage = new WWW(this.JsonURL);
-        yield return jsonPage;
-        while (jsonPage.error != null)
-        {
-            Debug.Log(jsonPage.error);
-            jsonPage = new WWW(this.JsonURL);
-            float t = Time.time;
-            yield return jsonPage;
-        }
+        //WWW jsonPage = new WWW(this.JsonURL);
+        //yield return jsonPage;
+        //while (jsonPage.error != null)
+        //{
+        //    Debug.Log(jsonPage.error);
+        //    jsonPage = new WWW(this.JsonURL);
+        //    float t = Time.time;
+        //    yield return jsonPage;
+        //}
         //Debug.Log(Time.time - t);
-        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
-        for(int i = 0; i < data.grid.Length; i ++)
+
+
+
+        //JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(jsonPage.text);
+
+
+        // from UDP
+        yield return udpString;
+        udpString = UDPReceive.udpString;  //  Update our score continuously.
+        Debug.Log(udpString);
+        JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
+
+
+        for (int i = 0; i < data.grid.Length; i ++)
         {
             JSONBuilding a = data.grid[i];
             a.Correct(15,15);
@@ -63,6 +123,7 @@ public class ColorizerCtrl : MonoBehaviour {
         BuildingDataCtrl.instance.UpdateDensities(data.objects.density);
         StartCoroutine("CheckForUpdates");
     }
+    */
 }
 
 [Serializable]
