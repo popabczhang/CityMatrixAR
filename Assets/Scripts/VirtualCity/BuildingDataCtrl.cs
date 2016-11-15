@@ -147,6 +147,7 @@ public class BuildingModel {
             bool a = value == _id;
             _id = value;
             if(!a) BuildingDataCtrl.instance.UpdateBuildingModel(this);
+            IndicateChange();
         }
     }
     public int x;
@@ -185,6 +186,7 @@ public class BuildingModel {
                 {
                     b.Rotation = value;
                 }
+                IndicateChange();
             }
         }
     }
@@ -314,5 +316,13 @@ public class BuildingModel {
         BuildingModel a = (BuildingModel)this.MemberwiseClone();
         a._heatMap = new double[7, 7];
         return a;
+    }
+
+    void IndicateChange()
+    {
+        foreach(Building b in this.views)
+        {
+            b.IndicateChange();
+        }
     }
 }

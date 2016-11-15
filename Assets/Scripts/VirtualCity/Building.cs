@@ -55,6 +55,7 @@ public class Building : MonoBehaviour
     private float minHeight = 0.1F;
 
     private bool streetViewMode = false;
+    private Transform viewObject = null;
 
     // Use this for initialization
     void Start()
@@ -112,6 +113,7 @@ public class Building : MonoBehaviour
                     flat.parent = this.transform;
                     flat.localPosition = new Vector3(0.5f, 0, 0.5f);
                     flat.gameObject.SetActive(true);
+                    this.viewObject = flat;
                     break;
                 case Type.MESH:
                     if (mesh != null) DestroyImmediate(mesh.gameObject);
@@ -129,6 +131,7 @@ public class Building : MonoBehaviour
                     {
                         this.transform.FindChild("StreetCamera").localEulerAngles = new Vector3(5, this.Rotation, 0);
                     }
+                    this.viewObject = mesh;
                     break;
                 case Type.SOLID:
                     sprite.gameObject.SetActive(true);
@@ -143,6 +146,7 @@ public class Building : MonoBehaviour
                     }
                     StartCoroutine("HeightSlide");
                     solid.gameObject.SetActive(true);
+                    this.viewObject = solid;
                     break;
                 case Type.WIREFRAME:
                     this.drawWireframe = true;
@@ -304,6 +308,14 @@ public class Building : MonoBehaviour
             this.repositionTopSprite(scale.y);
             yield return null;
         }
+    }
+
+    internal void IndicateChange()
+    {
+        Transform sprite = ((GameObject)Instantiate(Resources.Load("ChangeIndicator"))).transform;
+        sprite.parent = this.transform;
+        sprite.localPosition = new Vector3(0, GetBounds(this.viewObject).y + 1, 0);
+        sprite.gameObject.SetActive(true);
     }
 
     void repositionTopSprite(float scale)
