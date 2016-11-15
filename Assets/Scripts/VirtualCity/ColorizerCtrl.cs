@@ -47,8 +47,6 @@ public class ColorizerCtrl : MonoBehaviour {
     void Update () {
 
         udpString = GetComponent<UDPReceive>().udpString;
-        Debug.Log(udpString);
-        Debug.Log(UDPReceive.staticUdpString);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
 
