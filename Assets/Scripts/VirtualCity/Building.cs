@@ -56,6 +56,7 @@ public class Building : MonoBehaviour
 
     private bool streetViewMode = false;
     private Transform viewObject = null;
+    public GameObject changeIndicator;
 
     // Use this for initialization
     void Start()
@@ -312,7 +313,7 @@ public class Building : MonoBehaviour
 
     internal void IndicateChange()
     {
-        Transform sprite = ((GameObject)Instantiate(Resources.Load("ChangeIndicator"))).transform;
+        Transform sprite = ((GameObject) Instantiate(this.changeIndicator)).transform;
         sprite.parent = this.transform;
         sprite.localPosition = new Vector3(0, GetBounds(this.viewObject).y + 1, 0);
         sprite.gameObject.SetActive(true);

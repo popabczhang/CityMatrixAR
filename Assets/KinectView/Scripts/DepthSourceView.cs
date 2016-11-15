@@ -22,7 +22,7 @@ public class DepthSourceView : MonoBehaviour
     private Vector3[] _Vertices;
     private Vector2[] _UV;
     private int[] _Triangles;
-    
+
     // Only works at 4 right now
     private const int _DownsampleSize = 4;
     private const double _DepthScale = 0.1f;

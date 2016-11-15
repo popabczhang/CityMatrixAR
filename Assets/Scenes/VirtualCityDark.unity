@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3916775, g: 0.43534702, b: 0.50396615, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -939,7 +939,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 879164277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 95, z: 0}
+  m_LocalPosition: {x: -56.3, y: 95, z: 252.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1243,6 +1243,8 @@ MonoBehaviour:
   medDensity: 7
   highDensity: 14
   streetViewId: 7
+  changeIndicator: {fileID: 1000012789465702, guid: 74266af8d8c852e4dad130e1413a0932,
+    type: 2}
   residentialLowRise:
   - {fileID: 100000, guid: 1f54533e710314182a14a2f655821884, type: 3}
   - {fileID: 100000, guid: 9126dd454c68e4521b6371e5ca89e3bf, type: 3}
@@ -1795,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1802459723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: -330.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1849,9 +1851,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ViewMode: 1
-  ColorSourceManager: {fileID: 0}
-  DepthSourceManager: {fileID: 0}
-  MultiSourceManager: {fileID: 0}
+  ColorSourceManager: {fileID: 229274115}
+  DepthSourceManager: {fileID: 177829644}
+  MultiSourceManager: {fileID: 1881388507}
 --- !u!1 &1881388507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,7 +1988,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1990221954}
   m_LocalRotation: {x: -0.7071069, y: 0, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: 60, y: -45, z: 50}
+  m_LocalPosition: {x: 60, y: -45, z: 88.5}
   m_LocalScale: {x: 13, y: 1, z: 10}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []

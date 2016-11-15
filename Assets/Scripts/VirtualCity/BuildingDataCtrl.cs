@@ -13,6 +13,8 @@ public class BuildingDataCtrl : MonoBehaviour
 
     public int streetViewId;
 
+    public GameObject changeIndicator;
+
     public GameObject[] residentialLowRise;
     public GameObject[] residentialMidRise;
     public GameObject[] residentialHighRise;
@@ -95,6 +97,7 @@ public class BuildingDataCtrl : MonoBehaviour
                 model.StreetView();
             }
         }
+        model.ChangeIndicator = this.changeIndicator;
         this.AddModel(model);
     }
 
@@ -146,8 +149,11 @@ public class BuildingModel {
         {
             bool a = value == _id;
             _id = value;
-            if(!a) BuildingDataCtrl.instance.UpdateBuildingModel(this);
-            IndicateChange();
+            if (!a)
+            {
+                BuildingDataCtrl.instance.UpdateBuildingModel(this);
+                IndicateChange();
+            }
         }
     }
     public int x;
@@ -255,6 +261,19 @@ public class BuildingModel {
             }
         }
     }
+    private GameObject _changeIndicator;
+    public GameObject ChangeIndicator
+    {
+        get { return _changeIndicator; }
+        set
+        {
+            _changeIndicator = value;
+            foreach (Building b in views)
+            {
+                b.changeIndicator = value;
+            }
+        }
+    }
 
 
     private List<Building> views = new List<Building>();
@@ -279,6 +298,7 @@ public class BuildingModel {
         b.Height = this.GetVirtualHeight();
         b.flatPrefab = this.FlatView;
         b.meshPrefab = this.MeshView;
+        b.changeIndicator = this.ChangeIndicator;
         //b.Recolor(_colorRef, _heatMap);
         //b.Rotation = this.Rotation;
     }
