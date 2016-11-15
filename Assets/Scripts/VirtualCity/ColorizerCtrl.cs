@@ -20,12 +20,14 @@ public class ColorizerCtrl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        StartCoroutine("Initialize");
+        //StartCoroutine("Initialize");
         city = cityModel.GetCity();
         //sReader = new StreamReader("C:\\Users\\RYAN\\Dropbox (MIT)\01_Work\\MAS\\06_Fall 2016\\CityMatrix\\01_Software\\Processing\\Colortizer\\all.json");
         //sReader = new StreamReader("C:/Users/RYAN/Dropbox (MIT)/01_Work/MAS/06_Fall 2016/CityMatrix/01_Software/Processing/Colortizer/all.json");
 
-        udpString = UDPReceive.udpString;  //  Update our score continuously.
+        //udpString = UDPReceive.udpString;  //  Update our score continuously.
+        //udpString = ((UDPReceive)this.GetComponent("UDPReceive")).udpString;
+        udpString = GetComponent<UDPReceive>().udpString;
         //Debug.Log(udpString);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
@@ -43,8 +45,10 @@ public class ColorizerCtrl : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        udpString = UDPReceive.udpString;  //  Update our score continuously.
-        //Debug.Log(udpString);
+
+        udpString = GetComponent<UDPReceive>().udpString;
+        Debug.Log(udpString);
+        Debug.Log(UDPReceive.staticUdpString);
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
 

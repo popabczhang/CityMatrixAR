@@ -42,7 +42,7 @@ public class UDPReceive : MonoBehaviour
     public string lastReceivedUDPPacket = "";
     public string allReceivedUDPPackets = ""; // clean up this from time to time!
 
-    public static string udpString;  //  Static keyword makes this variable a Member of the class, not of any particular instance.
+    public string udpString;  //  Static keyword makes this variable a Member of the class, not of any particular instance.
     //public static byte[] udpData;
 
     // start from shell
@@ -80,16 +80,10 @@ public class UDPReceive : MonoBehaviour
 
     // init
     private void init()
-    {
-        // Endpunkt definieren, von dem die Nachrichten gesendet werden.
-        print("UDPSend.init()");
-
+    { 
         // define port
         port = 7002;
 
-        // status
-        print("Sending to 127.0.0.1 : " + port);
-        print("Test-Sending to this Port: nc -u 127.0.0.1  " + port + "");
 
 
         // ----------------------------
@@ -127,8 +121,6 @@ public class UDPReceive : MonoBehaviour
                 // latest UDPpacket
                 lastReceivedUDPPacket = text;
                 udpString = text;
-
-                // ....
                 allReceivedUDPPackets = allReceivedUDPPackets + text;
 
             }
