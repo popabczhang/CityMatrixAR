@@ -15,8 +15,9 @@ public class DepthSourceView : MonoBehaviour
     public GameObject ColorSourceManager;
     public GameObject DepthSourceManager;
     public GameObject MultiSourceManager;
-    public Transform  KinectPosition;
-    
+
+    public Transform KinectPosition;
+
     private KinectSensor _Sensor;
     private CoordinateMapper _Mapper;
     private Mesh _Mesh;
@@ -25,7 +26,7 @@ public class DepthSourceView : MonoBehaviour
     private int[] _Triangles;
 
     // Only works at 4 right now
-    public int _DownsampleSize = 4;
+    private const int _DownsampleSize = 4;
     public double _DepthScale = 0.1f;
     private const int _Speed = 50;
     
@@ -92,6 +93,7 @@ public class DepthSourceView : MonoBehaviour
         _Mesh.uv = _UV;
         _Mesh.triangles = _Triangles;
         _Mesh.RecalculateNormals();
+        _Mesh.RecalculateBounds();
     }
     
     void OnGUI()
@@ -198,32 +200,28 @@ public class DepthSourceView : MonoBehaviour
                 
                 avg = avg * _DepthScale;
                 
-                _Vertices[smallIndex] = new Vector3(x, -y, (float)avg);
+                _Vertices[smallIndex] = KinectPosition.localToWorldMatrix.MultiplyPoint(new Vector3(x, -y, (float) avg));
                 
                 // Update UV mapping with CDRP
                 var colorSpacePoint = colorSpace[(y * frameDesc.Width) + x];
                 _UV[smallIndex] = new Vector2(colorSpacePoint.X / colorWidth, colorSpacePoint.Y / colorHeight);
             }
         }
-        	
+        
         _Mesh.vertices = _Vertices;
         _Mesh.uv = _UV;
         _Mesh.triangles = _Triangles;
         _Mesh.RecalculateNormals();
-    }
-
-    private Vector3 TransformMeshPoint(Vector3 vert)
-    {
-	    return this.KinectPosition.localToWorldMatrix.MultiplyPoint(vert);
+        _Mesh.RecalculateBounds();
     }
     
     private double GetAvg(ushort[] depthData, int x, int y, int width, int height)
     {
         double sum = 0.0;
         
-        for (int y1 = y; y1 < y + _DownsampleSize; y1++)
+        for (int y1 = y; y1 < y + 4; y1++)
         {
-            for (int x1 = x; x1 < x + _DownsampleSize; x1++)
+            for (int x1 = x; x1 < x + 4; x1++)
             {
                 int fullIndex = (y1 * width) + x1;
                 
@@ -235,7 +233,7 @@ public class DepthSourceView : MonoBehaviour
             }
         }
 
-        return sum / (_DownsampleSize * _DownsampleSize);
+        return sum / 16;
     }
 
     void OnApplicationQuit()
