@@ -15,6 +15,7 @@ public class DepthSourceView : MonoBehaviour
     public GameObject ColorSourceManager;
     public GameObject DepthSourceManager;
     public GameObject MultiSourceManager;
+    public Transform  KinectPosition;
     
     private KinectSensor _Sensor;
     private CoordinateMapper _Mapper;
@@ -24,8 +25,8 @@ public class DepthSourceView : MonoBehaviour
     private int[] _Triangles;
 
     // Only works at 4 right now
-    private const int _DownsampleSize = 4;
-    private const double _DepthScale = 0.1f;
+    public const int _DownsampleSize = 4;
+    public const double _DepthScale = 0.1f;
     private const int _Speed = 50;
     
     private MultiSourceManager _MultiManager;
@@ -204,20 +205,29 @@ public class DepthSourceView : MonoBehaviour
                 _UV[smallIndex] = new Vector2(colorSpacePoint.X / colorWidth, colorSpacePoint.Y / colorHeight);
             }
         }
-        
+
+	TransformMesh(_Vertices);
+	
         _Mesh.vertices = _Vertices;
         _Mesh.uv = _UV;
         _Mesh.triangles = _Triangles;
         _Mesh.RecalculateNormals();
+    }
+
+    private void TransformMesh(Vector3[] verts)
+    {
+	for(int i = 0; i < verts.Length; i ++) {
+	    verts[i] = this.KinectPosition.localToWorlMatrix.MultiplyPoint(verts[i]);
+	}
     }
     
     private double GetAvg(ushort[] depthData, int x, int y, int width, int height)
     {
         double sum = 0.0;
         
-        for (int y1 = y; y1 < y + 4; y1++)
+        for (int y1 = y; y1 < y + _DownsampleSize; y1++)
         {
-            for (int x1 = x; x1 < x + 4; x1++)
+            for (int x1 = x; x1 < x + _DownsampleSize; x1++)
             {
                 int fullIndex = (y1 * width) + x1;
                 
@@ -229,7 +239,7 @@ public class DepthSourceView : MonoBehaviour
             }
         }
 
-        return sum / 16;
+        return sum / (_DownsampleSize * _DownsampleSize);
     }
 
     void OnApplicationQuit()
