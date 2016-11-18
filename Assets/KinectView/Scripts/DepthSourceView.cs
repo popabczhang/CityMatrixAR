@@ -25,8 +25,8 @@ public class DepthSourceView : MonoBehaviour
     private int[] _Triangles;
 
     // Only works at 4 right now
-    public const int _DownsampleSize = 4;
-    public const double _DepthScale = 0.1f;
+    public int _DownsampleSize = 4;
+    public double _DepthScale = 0.1f;
     private const int _Speed = 50;
     
     private MultiSourceManager _MultiManager;
@@ -198,27 +198,23 @@ public class DepthSourceView : MonoBehaviour
                 
                 avg = avg * _DepthScale;
                 
-                _Vertices[smallIndex].z = (float)avg;
+                _Vertices[smallIndex] = new Vector3(x, -y, (float)avg);
                 
                 // Update UV mapping with CDRP
                 var colorSpacePoint = colorSpace[(y * frameDesc.Width) + x];
                 _UV[smallIndex] = new Vector2(colorSpacePoint.X / colorWidth, colorSpacePoint.Y / colorHeight);
             }
         }
-
-	TransformMesh(_Vertices);
-	
+        	
         _Mesh.vertices = _Vertices;
         _Mesh.uv = _UV;
         _Mesh.triangles = _Triangles;
         _Mesh.RecalculateNormals();
     }
 
-    private void TransformMesh(Vector3[] verts)
+    private Vector3 TransformMeshPoint(Vector3 vert)
     {
-	for(int i = 0; i < verts.Length; i ++) {
-	    verts[i] = this.KinectPosition.localToWorlMatrix.MultiplyPoint(verts[i]);
-	}
+	    return this.KinectPosition.localToWorldMatrix.MultiplyPoint(vert);
     }
     
     private double GetAvg(ushort[] depthData, int x, int y, int width, int height)
