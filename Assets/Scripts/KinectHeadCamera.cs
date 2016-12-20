@@ -20,6 +20,8 @@ public class KinectHeadCamera : MonoBehaviour {
     public int udpPort = 1234;
     public int udpWait = 10;
 
+    public Transform focus;
+
     KinectSensor sensor;
     BodyFrameReader bodyReader;
     Body[] bodies;
@@ -91,6 +93,7 @@ public class KinectHeadCamera : MonoBehaviour {
         Vector3 pos = this.kinectHeadPos;
         pos.z = Math.Min(1, pos.z);
         this.transform.position = pos;
+        if(this.focus) this.transform.LookAt(this.focus);
     }
 
     void OnApplicationQuit()
@@ -149,7 +152,7 @@ public class KinectHeadCamera : MonoBehaviour {
     {
         foreach(Body b in this.bodies)
         {
-            foreach (System.Collections.Generic.KeyValuePair<JointType, Windows.Kinect.Joint> 
+            foreach (System.Collections.Generic.KeyValuePair<JointType, Windows.Kinect.Joint>
                 j in b.Joints)
             {
                 Vector3 pos = this.GetVirtualPosition(this.CSP2Vector3(j.Value.Position));
