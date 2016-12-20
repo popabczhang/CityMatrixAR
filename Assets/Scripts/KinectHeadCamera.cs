@@ -93,7 +93,7 @@ public class KinectHeadCamera : MonoBehaviour {
         Vector3 pos = this.kinectHeadPos;
         pos.z = Math.Min(1, pos.z);
         this.transform.position = pos;
-        if(this.focus) this.transform.LookAt(this.focus);
+        this.transform.LookAt(this.focus);
     }
 
     void OnApplicationQuit()

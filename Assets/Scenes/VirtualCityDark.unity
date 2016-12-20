@@ -427,7 +427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &177829645
 Transform:
   m_ObjectHideFlags: 0
@@ -709,7 +709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &229274116
 Transform:
   m_ObjectHideFlags: 0
@@ -1817,6 +1817,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 879164278}
+  - component: {fileID: 879164279}
   m_Layer: 0
   m_Name: KinectMesh
   m_TagString: Untagged
@@ -1842,6 +1843,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &879164279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 879164277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd8c9a329317a24099de914d5c15046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &893994137
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,6 +4244,34 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1719880442}
+--- !u!1 &1728037801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1728037802}
+  m_Layer: 0
+  m_Name: SimCamFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1728037802
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728037801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9, y: 10, z: 9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744061255
 GameObject:
   m_ObjectHideFlags: 0
@@ -4559,7 +4599,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1777900863}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &1777900865
 Behaviour:
   m_ObjectHideFlags: 0
@@ -4646,7 +4686,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1777900863}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fd1f58cf863b014bb573891dedb9247, type: 3}
   m_Name: 
@@ -4660,6 +4700,7 @@ MonoBehaviour:
   useUdp: 0
   udpPort: 1234
   udpWait: 10
+  focus: {fileID: 0}
 --- !u!114 &1777900871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4762,7 +4803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1802459724
 Transform:
   m_ObjectHideFlags: 0
@@ -5069,7 +5110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1881388508
 Transform:
   m_ObjectHideFlags: 0
@@ -5180,7 +5221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1990221955
 Transform:
   m_ObjectHideFlags: 0
@@ -5200,7 +5241,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1990221954}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61e5c93f5da1e324aa7fd9671db875bc, type: 3}
   m_Name: 
@@ -5273,7 +5314,7 @@ GameObject:
   - component: {fileID: 1998304595}
   - component: {fileID: 1998304594}
   m_Layer: 0
-  m_Name: MirrorCamera (1)
+  m_Name: SimCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5286,11 +5327,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1998304592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9, y: 5, z: -10}
-  m_LocalScale: {x: 1.0810815, y: 1.0810815, z: -1}
+  m_LocalPosition: {x: 19.44619, y: 2.9198408, z: -12.380953}
+  m_LocalScale: {x: 2.51892, y: 2.51892, z: -1}
   m_Children: []
-  m_Father: {fileID: 2125339982}
-  m_RootOrder: 5
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1998304594
 MonoBehaviour:
@@ -5323,6 +5364,7 @@ MonoBehaviour:
   useUdp: 0
   udpPort: 1234
   udpWait: 10
+  focus: {fileID: 1728037802}
 --- !u!114 &1998304596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5651,7 +5693,6 @@ Transform:
   - {fileID: 118682333}
   - {fileID: 1777900868}
   - {fileID: 260438020}
-  - {fileID: 1998304593}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
