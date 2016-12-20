@@ -170,7 +170,7 @@ public class Building : MonoBehaviour
         streetCamPos.localPosition = new Vector3(0.5f, 0.2f, 0.5f);
         streetCamPos.localEulerAngles = new Vector3(5, this.Rotation, 0);
         streetCamPos.GetComponent<Camera>().enabled = true;
-        Transform mainCam = GameObject.Find("MirrorCamera").transform;
+        Transform mainCam = GameObject.Find("SimCam").transform;
         mainCam.GetComponent<Camera>().enabled = false;
         this.streetViewMode = true;
     }
@@ -179,7 +179,7 @@ public class Building : MonoBehaviour
     {
         if (this.streetViewMode)
         {
-            Transform mainCam = GameObject.Find("MirrorCamera").transform;
+            Transform mainCam = GameObject.Find("SimCam").transform;
             mainCam.GetComponent<Camera>().enabled = true;
             Transform streetCam = GameObject.Find("StreetCamera").transform;
             streetCam.GetComponent<Camera>().enabled = false;
