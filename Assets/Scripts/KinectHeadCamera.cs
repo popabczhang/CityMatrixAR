@@ -34,7 +34,7 @@ public class KinectHeadCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.bodies = null;
+        this.bodies = new Body[0];
         this.kinectHeadPos = this.transform.position;
         if (this.useUdp)
         {

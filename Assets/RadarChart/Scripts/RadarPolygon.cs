@@ -30,6 +30,10 @@
             }
         }
 
+        public void Update() {
+          UpdateGeometry();
+        }
+
         protected UIVertex[] GetVert(Vector2[] vertices, Vector2[] uvs, bool customColor = false)
         {
             UIVertex[] vbo = new UIVertex[4];
