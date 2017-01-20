@@ -382,7 +382,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -40.878002, y: 136.75, z: 94.745}
 --- !u!1 &166529808
 GameObject:
@@ -802,7 +802,7 @@ Transform:
   m_LocalScale: {x: 0.42918456, y: 0.42918456, z: 1}
   m_Children: []
   m_Father: {fileID: 2125339982}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295494682
 GameObject:
@@ -1112,7 +1112,7 @@ RectTransform:
   - {fileID: 1099565901}
   - {fileID: 1083654015}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1598,12 +1598,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 716328721}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.7900438, y: -8.137606, z: 11.48021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1353748523}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!45 &716328726
 Skybox:
@@ -1840,7 +1840,7 @@ Transform:
   - {fileID: 177829645}
   - {fileID: 1881388508}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &879164279
 MonoBehaviour:
@@ -3393,6 +3393,52 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1287589566}
+--- !u!1 &1353748521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1353748523}
+  - component: {fileID: 1353748522}
+  m_Layer: 0
+  m_Name: Cameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1353748522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353748521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878dffe717fa0ca41aa0d4e059078c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selected: 1
+  mirrorCamera: {fileID: 1777900868}
+  simCamera: {fileID: 1998304593}
+--- !u!4 &1353748523
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353748521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7900438, y: 8.137606, z: -11.48021}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1777900868}
+  - {fileID: 1998304593}
+  - {fileID: 716328725}
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1390483462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3828,7 +3874,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661826110
 GameObject:
@@ -4267,7 +4313,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744061255
 GameObject:
@@ -4652,11 +4698,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1777900863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9, y: 5, z: -10}
-  m_LocalScale: {x: 1.081081, y: 1.081081, z: -1}
+  m_LocalPosition: {x: 22.236233, y: -5.217765, z: -0.90074253}
+  m_LocalScale: {x: 2.5189188, y: 2.5189188, z: -1}
   m_Children: []
-  m_Father: {fileID: 2125339982}
-  m_RootOrder: 3
+  m_Father: {fileID: 1353748523}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1777900869
 MonoBehaviour:
@@ -5506,7 +5552,7 @@ GameObject:
   - component: {fileID: 1998304595}
   - component: {fileID: 1998304594}
   m_Layer: 0
-  m_Name: SimCam
+  m_Name: SimCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5519,11 +5565,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1998304592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.44619, y: 2.9198408, z: -12.380953}
+  m_LocalPosition: {x: 22.236233, y: -5.217765, z: -0.90074253}
   m_LocalScale: {x: 2.51892, y: 2.51892, z: -1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 1353748523}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1998304594
 MonoBehaviour:
@@ -5883,7 +5929,6 @@ Transform:
   - {fileID: 1014007658}
   - {fileID: 295494683}
   - {fileID: 118682333}
-  - {fileID: 1777900868}
   - {fileID: 260438020}
   m_Father: {fileID: 0}
   m_RootOrder: 5
