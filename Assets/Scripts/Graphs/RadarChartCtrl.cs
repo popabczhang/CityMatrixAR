@@ -23,9 +23,6 @@ public class RadarChartCtrl : MonoBehaviour {
 					UpdateChild(child);
 				}
 			}
-
-			values[3] = (float) (values[3] + 0.1) % 1;
-
 	}
 
 	void OnValidate () {
@@ -41,6 +38,6 @@ public class RadarChartCtrl : MonoBehaviour {
 
 	void UpdateChild(UnityEngine.UI.Extensions.RadarPolygon child) {
 		child.value = (float[]) values.Clone();
-
+		child.segment = values.Length;
 	}
 }

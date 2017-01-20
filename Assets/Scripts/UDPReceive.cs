@@ -1,22 +1,20 @@
 ﻿
 /*
- 
     -----------------------
     UDP-Receive (send to)
     -----------------------
     // [url]http://msdn.microsoft.com/de-de/library/bb979228.aspx#ID0E3BAC[/url]
-   
-   
+
     // > receive
     // 127.0.0.1 : 8051
-   
+
     // send
     // nc -u 127.0.0.1 8051
- 
 */
 
 
 using UnityEngine;
+using UnityEditor;
 using System.Collections;
 
 using System;
@@ -38,95 +36,70 @@ public class UDPReceive : MonoBehaviour
     // public string IP = "127.0.0.1"; default local
     public int port; // define > init
 
-    // infos
     public string lastReceivedUDPPacket = "";
     public string allReceivedUDPPackets = ""; // clean up this from time to time!
 
-    public string udpString;  //  Static keyword makes this variable a Member of the class, not of any particular instance.
-    //public static byte[] udpData;
+    public string udpString;
 
-    // start from shell
-    private static void Main()
+    private ThreadController threadController;
+
+    class ThreadController
     {
-        UDPReceive receiveObj = new UDPReceive();
-        receiveObj.init();
-
-        string text = "";
-        do
-        {
-            text = Console.ReadLine();
-        }
-        while (!text.Equals("exit"));
+        public bool ShouldExecute { get; set; }
     }
-    // start from unity3d
+
     public void Start()
     {
-
-        init();
+      threadController = new ThreadController{ShouldExecute = true};
+      Thread receiveThread = new Thread(ReceiveData);
+      receiveThread.IsBackground = true;
+      receiveThread.Start(threadController);
     }
 
     // OnGUI
-    void OnGUI()
+    void OnGUIi()
     {
-        //Rect rectObj = new Rect(40, 10, 200, 400);
-        //GUIStyle style = new GUIStyle();
-        //style.alignment = TextAnchor.UpperLeft;
-        //GUI.Box(rectObj, "# UDPReceive\n127.0.0.1 " + port + " #\n"
-        //            + "shell> nc -u 127.0.0.1 : " + port + " \n"
-        //            + "\nLast Packet: \n" + lastReceivedUDPPacket
-        //            + "\n\nAll Messages: \n" + allReceivedUDPPackets
-        //        , style);
+        Rect rectObj = new Rect(40, 10, 200, 400);
+        GUIStyle style = new GUIStyle();
+        style.alignment = TextAnchor.UpperLeft;
+        GUI.Box(rectObj, "# UDPReceive\n127.0.0.1 " + port + " #\n"
+                   + "shell> nc -u 127.0.0.1 : " + port + " \n"
+                   + "\nLast Packet: \n" + lastReceivedUDPPacket
+                   + "\n\nAll Messages: \n" + allReceivedUDPPackets
+               , style);
     }
 
-    // init
-    private void init()
-    { 
-        // define port
-        port = 7002;
+    void OnDisable()
+    {
+      if ( receiveThread!= null)
+      receiveThread.Abort();
 
-
-
-        // ----------------------------
-        // Abhören
-        // ----------------------------
-        // Lokalen Endpunkt definieren (wo Nachrichten empfangen werden).
-        // Einen neuen Thread für den Empfang eingehender Nachrichten erstellen.
-        receiveThread = new Thread(
-            new ThreadStart(ReceiveData));
-        receiveThread.IsBackground = true;
-        receiveThread.Start();
-
+      client.Close();
     }
 
     // receive thread
-    private void ReceiveData()
+    private void ReceiveData(object inp)
     {
-
+        var tc = (ThreadController) inp;
         client = new UdpClient(port);
-        while (true)
+        while (tc.ShouldExecute)
         {
-
             try
             {
-                // Bytes empfangen.
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] data = client.Receive(ref anyIP);
 
-                // Bytes mit der UTF8-Kodierung in das Textformat kodieren.
                 string text = Encoding.UTF8.GetString(data);
 
-                // Den abgerufenen Text anzeigen.
-                //print(">> " + text);
-
-                // latest UDPpacket
                 lastReceivedUDPPacket = text;
                 udpString = text;
-                allReceivedUDPPackets = allReceivedUDPPackets + text;
+                //allReceivedUDPPackets = allReceivedUDPPackets + text;
 
             }
             catch (Exception err)
             {
-                print(err.ToString());
+                Debug.Log(err.ToString());
+                return;
             }
         }
     }

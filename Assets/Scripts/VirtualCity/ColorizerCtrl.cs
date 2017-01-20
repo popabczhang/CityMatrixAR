@@ -49,7 +49,7 @@ public class ColorizerCtrl : MonoBehaviour {
         udpString = GetComponent<UDPReceive>().udpString;
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
 
-
+        if(data == null) return;
         for (int i = 0; i < data.grid.Length; i++)
         {
             JSONBuilding a = data.grid[i];
@@ -69,7 +69,7 @@ public class ColorizerCtrl : MonoBehaviour {
 
         // read file, acturally reading and parsing works but the file cannot be open with 2 programs
         //readJson = sReader.ReadToEnd();
-        //JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(readJson); 
+        //JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(readJson);
 
         // from UDP
         yield return null;
