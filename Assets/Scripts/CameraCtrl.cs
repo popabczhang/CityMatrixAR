@@ -20,15 +20,11 @@ public class CameraCtrl : MonoBehaviour {
 	void Update () {
 		if(Input.GetButtonDown("ChangeCam")) {
 			if(selected == CAM.SIM) {
-				simCamera.GetComponent<KinectHeadCamera>().enabled = false;
 				simCamera.GetComponent<Camera>().enabled = false;
-				mirrorCamera.GetComponent<KinectHeadCamera>().enabled = true;
 				mirrorCamera.GetComponent<Camera>().enabled = true;
 				selected = CAM.MIRROR;
 			} else {
-				mirrorCamera.GetComponent<KinectHeadCamera>().enabled = false;
 				mirrorCamera.GetComponent<Camera>().enabled = false;
-				simCamera.GetComponent<KinectHeadCamera>().enabled = true;
 				simCamera.GetComponent<Camera>().enabled = true;
 				selected = CAM.SIM;
 			}

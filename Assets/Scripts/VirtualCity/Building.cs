@@ -186,12 +186,12 @@ public class Building : MonoBehaviour
         if (this._type != Type.MESH) return;
         Camera streetCam = GameObject.Find("StreetCamera").GetComponent<Camera>();
         Transform streetCamPos = streetCam.transform;
+        streetCamPos.GetComponent<Camera>().enabled = true;
+        Transform mainCam = GameObject.Find("SimCamera").transform;
+        mainCam.GetComponent<Camera>().enabled = false;
         streetCamPos.parent = this.transform;
         streetCamPos.localPosition = new Vector3(0.5f, 0.2f, 0.5f);
         streetCamPos.localEulerAngles = new Vector3(5, this.Rotation, 0);
-        streetCamPos.GetComponent<Camera>().enabled = true;
-        Transform mainCam = GameObject.Find("SimCam").transform;
-        mainCam.GetComponent<Camera>().enabled = false;
         this.streetViewMode = true;
     }
 
@@ -199,7 +199,7 @@ public class Building : MonoBehaviour
     {
         if (this.streetViewMode)
         {
-            Transform mainCam = GameObject.Find("SimCam").transform;
+            Transform mainCam = GameObject.Find("SimCamera").transform;
             mainCam.GetComponent<Camera>().enabled = true;
             Transform streetCam = GameObject.Find("StreetCamera").transform;
             streetCam.GetComponent<Camera>().enabled = false;

@@ -34,7 +34,6 @@ public class KinectHeadCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.bodies = new Body[0];
         this.kinectHeadPos = this.transform.position;
         if (this.useUdp)
         {
@@ -56,6 +55,7 @@ public class KinectHeadCamera : MonoBehaviour {
     void Update () {
         if(!this.useUdp)
         {
+            
             if (this.bodyReader != null)
             {
                 var frame = this.bodyReader.AcquireLatestFrame();
@@ -65,7 +65,6 @@ public class KinectHeadCamera : MonoBehaviour {
                     {
                         this.bodies = new Body[this.sensor.BodyFrameSource.BodyCount];
                     }
-
                     frame.GetAndRefreshBodyData(this.bodies);
 
                     frame.Dispose();
@@ -73,15 +72,19 @@ public class KinectHeadCamera : MonoBehaviour {
                 }
             }
             float best = -1f;
-            foreach (Body b in this.bodies)
+            if (this.bodies != null)
             {
-                if (b.IsTracked)
+                foreach (Body b in this.bodies)
                 {
-                    Vector3 headPos = this.GetVirtualPosition(
-                        this.CSP2Vector3(b.Joints[JointType.Head].Position));
-                    if (best == -1 || (Vector3.Distance(headPos, this.kinectHeadTarget.position)) < best) {
-                        this.kinectHeadPos = headPos;
-                        best = Vector3.Distance(headPos, this.kinectHeadTarget.position);
+                    if (b.IsTracked)
+                    {
+                        Vector3 headPos = this.GetVirtualPosition(
+                            this.CSP2Vector3(b.Joints[JointType.Head].Position));
+                        if (best == -1 || (Vector3.Distance(headPos, this.kinectHeadTarget.position)) < best)
+                        {
+                            this.kinectHeadPos = headPos;
+                            best = Vector3.Distance(headPos, this.kinectHeadTarget.position);
+                        }
                     }
                 }
             }
@@ -93,7 +96,6 @@ public class KinectHeadCamera : MonoBehaviour {
         Vector3 pos = this.kinectHeadPos;
         pos.z = Math.Min(1, pos.z);
         this.transform.position = pos;
-        this.transform.LookAt(this.focus);
     }
 
     void OnApplicationQuit()

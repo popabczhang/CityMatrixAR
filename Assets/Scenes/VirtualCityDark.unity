@@ -1599,7 +1599,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 716328721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7900438, y: -8.137606, z: 11.48021}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353748523}
@@ -3403,6 +3403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1353748523}
   - component: {fileID: 1353748522}
+  - component: {fileID: 1353748524}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -3431,7 +3432,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1353748521}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7900438, y: 8.137606, z: -11.48021}
+  m_LocalPosition: {x: 11.27, y: 8.137606, z: -11.48021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1777900868}
@@ -3440,6 +3441,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1353748524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353748521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd1f58cf863b014bb573891dedb9247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBodies: 12
+  kinect: {fileID: 1014007658}
+  kinectHeadTarget: {fileID: 260438020}
+  spaceUnitsPerMeter: 31.74603
+  offset: {x: 0.25, y: -1.5, z: 0}
+  kinectAngle: {x: 17.53, y: 0, z: 0}
+  useUdp: 0
+  udpPort: 1234
+  udpWait: 10
+  focus: {fileID: 0}
 --- !u!1 &1390483462
 GameObject:
   m_ObjectHideFlags: 0
@@ -4628,7 +4650,6 @@ GameObject:
   - component: {fileID: 1777900865}
   - component: {fileID: 1777900864}
   - component: {fileID: 1777900869}
-  - component: {fileID: 1777900870}
   - component: {fileID: 1777900871}
   m_Layer: 0
   m_Name: MirrorCamera
@@ -4699,8 +4720,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1777900863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.236233, y: -5.217765, z: -0.90074253}
-  m_LocalScale: {x: 2.5189188, y: 2.5189188, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353748523}
   m_RootOrder: 0
@@ -4724,27 +4745,6 @@ MonoBehaviour:
   focusPoint: {fileID: 295494683}
   drawNearCone: 0
   drawFrustum: 0
---- !u!114 &1777900870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1777900863}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd1f58cf863b014bb573891dedb9247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxBodies: 12
-  kinect: {fileID: 1014007658}
-  kinectHeadTarget: {fileID: 260438020}
-  spaceUnitsPerMeter: 31.74603
-  offset: {x: 0.25, y: -1.5, z: 0}
-  kinectAngle: {x: 17.53, y: 0, z: 0}
-  useUdp: 0
-  udpPort: 1234
-  udpWait: 10
-  focus: {fileID: 0}
 --- !u!114 &1777900871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5549,9 +5549,8 @@ GameObject:
   - component: {fileID: 1998304599}
   - component: {fileID: 1998304598}
   - component: {fileID: 1998304597}
-  - component: {fileID: 1998304596}
-  - component: {fileID: 1998304595}
   - component: {fileID: 1998304594}
+  - component: {fileID: 1998304595}
   m_Layer: 0
   m_Name: SimCamera
   m_TagString: Untagged
@@ -5566,8 +5565,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1998304592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.236233, y: -5.217765, z: -0.90074253}
-  m_LocalScale: {x: 2.51892, y: 2.51892, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1353748523}
   m_RootOrder: 1
@@ -5591,38 +5590,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1998304592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd1f58cf863b014bb573891dedb9247, type: 3}
+  m_Script: {fileID: 11500000, guid: 625de65fe8040cd44a6a588918ae7144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBodies: 12
-  kinect: {fileID: 1014007658}
-  kinectHeadTarget: {fileID: 260438020}
-  spaceUnitsPerMeter: 31.74603
-  offset: {x: 0.25, y: -1.5, z: 0}
-  kinectAngle: {x: 17.53, y: 0, z: 0}
-  useUdp: 0
-  udpPort: 1234
-  udpWait: 10
   focus: {fileID: 1728037802}
---- !u!114 &1998304596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1998304592}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5f362f669685734e877972e7f39eeef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frameTopLeft: {fileID: 105991560}
-  frameBottomLeft: {fileID: 393019618}
-  frameTopRight: {fileID: 166529809}
-  frameBottomRight: {fileID: 71675444}
-  monitorDimensions: {x: 18, y: 10.125}
-  focusPoint: {fileID: 295494683}
-  drawNearCone: 0
-  drawFrustum: 0
 --- !u!81 &1998304597
 AudioListener:
   m_ObjectHideFlags: 0
