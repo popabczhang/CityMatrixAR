@@ -161,6 +161,26 @@ public class Building : MonoBehaviour
         }
     }
 
+    static Vector3 newFocus;
+
+    internal void Focus()
+    {
+        newFocus = this.transform.position;
+        newFocus.y = GameObject.Find("SimCamFocus").transform.position.y;
+        StartCoroutine("FocusSlide");
+    }
+
+    IEnumerator FocusSlide()
+    {
+        Transform simCam = GameObject.Find("SimCamFocus").transform;
+        while (simCam.position != newFocus)
+        {
+            simCam.position = Vector3.MoveTowards(simCam.position, newFocus, 
+                Vector3.Distance(simCam.position, newFocus) / 10);
+            yield return null;
+        }
+    }
+
     internal void StreetView()
     {
         if (this._type != Type.MESH) return;

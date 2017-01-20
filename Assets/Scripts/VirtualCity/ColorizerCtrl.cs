@@ -12,6 +12,8 @@ public class ColorizerCtrl : MonoBehaviour {
     private JSONCityMatrix oldData;
     private BuildingModel[,] city;
 
+    public UnityEngine.UI.Extensions.RadarPolygon chart;
+
     //private StreamReader sReader;
     //private string readJson;
 
@@ -43,8 +45,14 @@ public class ColorizerCtrl : MonoBehaviour {
 
     }
 
+    int i = 0;
     // Update is called once per frame
     void Update () {
+        //if (i % 30 == 0)
+        //{
+         //   chart.value[0] = (float)Math.Sin(i);
+        //}
+        //i++;
 
         udpString = GetComponent<UDPReceive>().udpString;
         JSONCityMatrix data = JsonUtility.FromJson<JSONCityMatrix>(udpString);
