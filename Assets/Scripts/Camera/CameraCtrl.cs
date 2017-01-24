@@ -5,12 +5,13 @@ using UnityEngine;
 public class CameraCtrl : MonoBehaviour {
 
 	public enum CAM {
-		MIRROR,SIM
+		MIRROR,SIM,MOUSE
 	}
 
 	public CAM selected;
 	public Transform mirrorCamera;
 	public Transform simCamera;
+	public Transform mouseCamera;
 
 	// Use this for initialization
 	void Start () {
@@ -22,10 +23,17 @@ public class CameraCtrl : MonoBehaviour {
 			if(selected == CAM.SIM) {
 				simCamera.GetComponent<Camera>().enabled = false;
 				mirrorCamera.GetComponent<Camera>().enabled = true;
+				mouseCamera.GetComponent<Camera>().enabled = false;
 				selected = CAM.MIRROR;
+			} else if (selected == CAM.MIRROR) {
+				simCamera.GetComponent<Camera>().enabled = false;
+				mirrorCamera.GetComponent<Camera>().enabled = false;
+				mouseCamera.GetComponent<Camera>().enabled = true;
+				selected = CAM.MOUSE;
 			} else {
 				mirrorCamera.GetComponent<Camera>().enabled = false;
 				simCamera.GetComponent<Camera>().enabled = true;
+				mouseCamera.GetComponent<Camera>().enabled = false;
 				selected = CAM.SIM;
 			}
 		}
