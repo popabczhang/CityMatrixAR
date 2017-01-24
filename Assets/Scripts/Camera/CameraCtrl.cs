@@ -13,8 +13,8 @@ public class CameraCtrl : MonoBehaviour {
 	public Transform simCamera;
 	public Transform mouseCamera;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	}
 
 	// Update is called once per frame
