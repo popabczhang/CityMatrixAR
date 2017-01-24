@@ -71,14 +71,14 @@ public class BuildingDataCtrl : MonoBehaviour
             if (id != this.streetViewId) model.ReleaseStreetView();
             if (id == -1)
             {
-                model.MeshView = r > 0.25f ? park[Random.Range(0, park.Length - 1)] : 
+                model.MeshView = r > 0.25f ? park[Random.Range(0, park.Length - 1)] :
                     flat[Random.Range(0, flat.Length - 1)];
             } else if(id == 6 || id == this.streetViewId)
             {
                 model.MeshView = road[Random.Range(0, road.Length - 1)];
             } else if(dens <= this.medDensity)
             {
-                model.MeshView = type.residential ? 
+                model.MeshView = type.residential ?
                     residentialLowRise[Random.Range(0, residentialLowRise.Length - 1)] :
                     officeLowRise[Random.Range(0, officeLowRise.Length - 1)];
             } else if (dens <= this.highDensity)
@@ -152,8 +152,13 @@ public class BuildingModel {
             if (!a)
             {
                 BuildingDataCtrl.instance.UpdateBuildingModel(this);
-
                 IndicateChange();
+            }
+            foreach (Building b in views) {
+              b.gameObject.SetActive(true);
+              if (_id == -2) {
+                b.gameObject.SetActive(false);
+              }
             }
         }
     }
@@ -331,7 +336,7 @@ public class BuildingModel {
         this.Rotation = b.rot;
         this.Magnitude = b.magnitude;
     }
-    
+
     public BuildingModel Copy()
     {
         BuildingModel a = (BuildingModel)this.MemberwiseClone();
