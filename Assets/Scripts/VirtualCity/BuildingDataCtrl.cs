@@ -348,7 +348,7 @@ public class BuildingModel {
     {
         foreach(Building b in this.views)
         {
-            b.IndicateChange();
+            //b.IndicateChange();
             if (b.ViewType == Building.Type.MESH)
             {
                 b.Focus();
